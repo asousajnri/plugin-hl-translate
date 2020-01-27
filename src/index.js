@@ -9,6 +9,7 @@ import getSelected from "./utils/get-selected";
 export default (() => {
   const popupOutputTranslate = document.createElement("div");
   popupOutputTranslate.setAttribute("class", "popup-translate");
+  popupOutputTranslate.setAttribute("opened", "true");
   popupOutputTranslate.innerHTML = `
     <small></small>
     <span class="arrow-down"></span>
@@ -40,4 +41,8 @@ export default (() => {
       popupOutputTranslate.classList.remove("is-active");
     }
   });
+
+  window.onscroll = () => {
+    popupOutputTranslate.classList.remove("is-active");
+  };
 })();
