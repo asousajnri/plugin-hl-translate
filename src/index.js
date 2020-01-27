@@ -26,7 +26,9 @@ export default (() => {
         err,
         translation
       ) {
-        let rangeT = document.getSelection().getRangeAt(0);
+        let t = document.getSelection();
+        let rangeT = t.getRangeAt(0);
+        let rectT = rangeT.getBoundingClientRect();
 
         popupOutputTranslate.classList.add("is-active");
         popupOutputTranslate.style.left = `${rectT.x}px`;
