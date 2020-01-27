@@ -1,54 +1,41 @@
-const configAPI = {
+const configTranslate = {
   key: "AIzaSyDCBDC0XEnIJ4Pjf5tjp0J0MdweYzV8NgI",
   language: "pt"
 };
 
-const { translate } = require("google-translate")(configAPI.key);
-
-// https://stackoverflow.com/questions/5379120/get-the-highlighted-selected-text
-// http://jsfiddle.net/PQbb7/7/
-// https://www.cssscript.com/text-selection-popup-pure-javascript/
+const { translate } = require("google-translate")(configTranslate.key);
+import getSelected from "./utils/get-selected";
 
 export default (() => {
-  const validTags = [
-    "P",
-    "EM",
-    "ADRESS",
-    "H1",
-    "H2",
-    "H3",
-    "H4",
-    "H5",
-    "A",
-    "B"
-  ];
+  const popupOutputTranslate = document.createElement("div");
+  popupOutputTranslate.setAttribute("class", "popup-translate");
+  popupOutputTranslate.innerHTML = `
+    <small></small>
+    <span class="arrow-down"></span>
+  `;
 
-  const getSelected = elemTagName => {
-    let mouseUpTagValid = validTags.filter(tag => {
-      return elemTagName === tag;
-    });
+  document.body.appendChild(popupOutputTranslate);
 
-    if (mouseUpTagValid.length !== 0) {
-      if (window.getSelection) {
-        return window.getSelection();
-      } else if (document.getSelection) {
-        return document.getSelection();
-      } else {
-        var selection = document.selection && document.selection.createRange();
-        if (selection.text) {
-          return selection.text;
-        }
-        return false;
-      }
-    }
-  };
+  const elemToInsertTranslate = popupOutputTranslate.querySelector("small");
 
   document.addEventListener("mouseup", e => {
-    let highLightedText = getSelected(e.target.tagName);
+    let highLightedText = getSelected(e.target.tagName).toString();
 
-    let p = document.createElement("p");
-    p.textContent = select;
+    if (highLightedText) {
+      translate(highLightedText, configTranslate.language, function(
+        err,
+        translation
+      ) {
+        let rangeT = document.getSelection().getRangeAt(0);
 
-    document.body.appendChild(p);
+        popupOutputTranslate.classList.add("is-active");
+        popupOutputTranslate.style.left = `${rectT.x}px`;
+        popupOutputTranslate.style.top = `${e.y}px`;
+
+        elemToInsertTranslate.textContent = `${translation.translatedText}`;
+      });
+    } else {
+      popupOutputTranslate.classList.remove("is-active");
+    }
   });
 })();

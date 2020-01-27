@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap");
+
+.popup-translate {
+  font-family: "Roboto", sans-serif;
+  position: fixed;
+  min-width: 100px;
+  max-width: 500px;
+  background: #292929;
+  color: #fff;
+  border-radius: 3px;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  margin: 0;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 300;
+  text-transform: uppercase;
+
+  /* -webkit-box-shadow: 2px 2px 2px rgba(35, 35, 35, 0.909);
+  box-shadow: 2px 2px 2px rgba(35, 35, 35, 0.909); */
+
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+
+  -webkit-transition: opacity 0.2s ease-in, -webkit-transform 0.2s ease-in;
+  transition: opacity 0.2s ease-in, -webkit-transform 0.2s ease-in;
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in,
+    -webkit-transform 0.2s ease-in;
+}
+
+.popup-translate.is-active {
+  visibility: visible;
+  -webkit-transform: translateY(calc(-100% - 16px));
+  transform: translateY(calc(-100% - 16px));
+  opacity: 1;
+}
+
+.popup-translate .arrow-down {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  bottom: 0px;
+  left: calc(50% - 5px);
+  -webkit-transform: translateY(50%) rotate(45deg);
+  transform: translateY(50%) rotate(45deg);
+  background-color: inherit;
+  z-index: -1;
+}
