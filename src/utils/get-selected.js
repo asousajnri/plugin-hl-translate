@@ -1,4 +1,16 @@
-const validTags = ["P", "EM", "ADRESS", "H1", "H2", "H3", "H4", "H5", "A", "B"];
+const validTags = [
+  "P",
+  "EM",
+  "ADRESS",
+  "H1",
+  "H2",
+  "H3",
+  "H4",
+  "H5",
+  "A",
+  "B",
+  "STRONG"
+];
 
 export default elemTagName => {
   let mouseUpTagValid = validTags.filter(tag => {
@@ -6,14 +18,17 @@ export default elemTagName => {
   });
 
   if (mouseUpTagValid.length !== 0) {
-    if (window.getSelection) return window.getSelection();
-  } else if (document.getSelection) {
-    return document.getSelection();
-  } else {
-    var selection = document.selection && document.selection.createRange();
-    if (selection.text) {
-      return selection.text;
+    if (window.getSelection) {
+      let text = window
+        .getSelection()
+        .toString()
+        .trim();
+
+      if (text.length === 0) return false;
+
+      return text;
     }
+  } else {
     return false;
   }
 };

@@ -3,7 +3,9 @@ const configTranslate = {
   language: "pt"
 };
 
-const { translate } = require("google-translate")(configTranslate.key);
+const { translate, detectLanguage } = require("google-translate")(
+  configTranslate.key
+);
 import getSelected from "./utils/get-selected";
 
 export default (() => {
@@ -13,14 +15,18 @@ export default (() => {
   popupOutputTranslate.innerHTML = `
     <small></small>
     <span class="arrow-down"></span>
-  `;
+    `;
 
   document.body.appendChild(popupOutputTranslate);
 
   const elemToInsertTranslate = popupOutputTranslate.querySelector("small");
 
   document.addEventListener("mouseup", e => {
-    let highLightedText = getSelected(e.target.tagName).toString();
+    let highLightedText = getSelected(e.target.tagName);
+
+    // detectLanguage(highLightedText, (err, detection) => {
+    //   detection.language
+    // });
 
     if (highLightedText) {
       translate(highLightedText, configTranslate.language, function(
@@ -42,7 +48,11 @@ export default (() => {
     }
   });
 
-  window.onscroll = () => {
+  window.addEventListener("click", () => {
     popupOutputTranslate.classList.remove("is-active");
-  };
+  });
+
+  window.addEventListener("scroll", () => {
+    popupOutputTranslate.classList.remove("is-active");
+  });
 })();
