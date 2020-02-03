@@ -9,7 +9,8 @@ const validTags = [
   "H5",
   "A",
   "B",
-  "STRONG"
+  "STRONG",
+  "LI"
 ];
 
 export default elemTagName => {
