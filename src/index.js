@@ -52,7 +52,9 @@ export default (() => {
     popupOutputTranslate.classList.remove("is-active");
   });
 
-  window.addEventListener("scroll", () => {
+  const windowScroll = window.addEventListener("scroll", () => {
     popupOutputTranslate.classList.remove("is-active");
   });
+
+  window.removeEventListener(windowScroll);
 })();

@@ -36,7 +36,7 @@
   transition: opacity 0.2s ease-in, transform 0.2s ease-in;
   transition: opacity 0.2s ease-in, transform 0.2s ease-in,
     -webkit-transform 0.2s ease-in;
-  transition: 0.3s;
+  /* transition: 0.3s; */
   cursor: pointer;
 }
 
