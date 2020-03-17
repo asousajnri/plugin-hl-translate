@@ -9,6 +9,7 @@ const validTags = [
   "H5",
   "A",
   "B",
+  "DIV",
   "STRONG",
   "LI"
 ];
