@@ -1,12 +1,13 @@
 const path = require("path");
 
 module.exports = {
-  mode: "production",
-  entry: ["babel-polyfill", path.resolve(__dirname, "src", "index.js")],
+  mode: "development",
+  entry: ["babel-polyfill", path.resolve(__dirname, "content.js")],
   output: {
     path: path.join(__dirname, "build", "content"),
-    filename: "content.min.js"
+    filename: "index.js"
   },
+  watch: true,
   node: {
     fs: "empty",
     child_process: "empty",

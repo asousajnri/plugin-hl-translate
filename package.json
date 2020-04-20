@@ -1,11 +1,11 @@
 {
   "name": "translate",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "",
   "author": "Antônio Sousa <antonio.sousa@indexdigital.com.br>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack"
+    "dev": "webpack --watch"
   },
   "dependencies": {
     "google-translate": "^3.0.0"
