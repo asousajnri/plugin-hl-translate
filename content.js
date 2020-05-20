@@ -8,7 +8,7 @@ const HTL = (() => {
 	const _mountPopupInPage = () => {
 		const POPUP_HTL = document.createElement("div");
 		
-		POPUP_HTL.setAttribute("class", "popup-translate");
+		POPUP_HTL.setAttribute("class", "popup-hl");
 		POPUP_HTL.setAttribute("opened", "true");
 		
 		POPUP_HTL.innerHTML = `
@@ -47,28 +47,31 @@ const HTL = (() => {
 	  }
 	};
 	
-	const _documentMouseUp = (e, popoup, targetInsertTranslate) => {
-    let highLightedText = _getSelected(e.target.tagName);
+	const _documentMouseUp = (e, popup, targetInsertTranslate) => {
+    //let highLightedText = _getSelected(e.target.tagName);
     
-    if (!highLightedText) {
-      popoup.classList.remove("is-active");
+    const highLightedText = document.getSelection();
+    
+    if (highLightedText.toString().length === 0) {
+      popup.classList.remove("is-active");
       return;
     }
 
-    detectLanguage(highLightedText, (err, detection) => {
+    detectLanguage(highLightedText.toString(), (err, detection) => {
       if (detection.language === "en") {
-        translate(highLightedText, 'pt', function(
+	      const text = highLightedText.toString();
+	      
+        translate(text, 'pt', function(
           err,
           translation
         ) {
-          let t = document.getSelection();
-					let rangeT = t.getRangeAt(0);
+					let rangeT = highLightedText.getRangeAt(0);
 					let rectT = rangeT.getBoundingClientRect();
 
-          popoup.classList.add("is-active");
-          popoup.style.left = `${rectT.x}px`;
-          popoup.style.top = `${e.y}px`;
-
+					popup.style.top = `${rectT.y}px`;
+					popup.style.left = `${rectT.x - popup.clientWidth / 2 + rectT.width / 2}px`;
+					
+					popup.classList.add("is-active");
           targetInsertTranslate.textContent = `${translation.translatedText}`;
         });
       }

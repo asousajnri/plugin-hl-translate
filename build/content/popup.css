@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap");
 
-.popup-translate {
+.popup-hl {
   font-family: "Roboto", sans-serif;
   position: fixed;
   min-width: 100px;
   max-width: 500px;
-  background: #292929;
+  background: #fd237d;
+  font-weight: 600;
   color: #fff;
   border-radius: 3px;
   left: 50%;
@@ -21,7 +22,7 @@
   padding: 10px;
   box-sizing: border-box;
   font-size: 16px;
-  font-weight: 300;
+  
   /* text-transform: uppercase; */
   letter-spacing: 0.6px;
   line-height: 20px;
@@ -40,14 +41,14 @@
   cursor: pointer;
 }
 
-.popup-translate.is-active {
+.popup-hl.is-active {
   visibility: visible;
   -webkit-transform: translateY(calc(-100% - 16px));
   transform: translateY(calc(-100% - 16px));
   opacity: 1;
 }
 
-.popup-translate .arrow-down {
+.popup-hl .arrow-down {
   width: 10px;
   height: 10px;
   position: absolute;

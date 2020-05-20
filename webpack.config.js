@@ -7,7 +7,7 @@ module.exports = {
     path: path.join(__dirname, "build", "content"),
     filename: "index.js"
   },
-  watch: true,
+  //watch: true,
   node: {
     fs: "empty",
     child_process: "empty",
