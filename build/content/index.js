@@ -90,10 +90,35 @@
 /*!********************!*\
   !*** ./content.js ***!
   \********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("var _require = __webpack_require__(/*! google-translate */ \"./node_modules/google-translate/lib/main.js\")('AIzaSyDCBDC0XEnIJ4Pjf5tjp0J0MdweYzV8NgI'),\n    translate = _require.translate,\n    detectLanguage = _require.detectLanguage;\n\nvar HTL = function () {\n  var VALID_TAGS = [\"P\", \"EM\", \"ADRESS\", \"H1\", \"H2\", \"H3\", \"H4\", \"H5\", \"A\", \"B\", \"DIV\", \"STRONG\", \"LI\"];\n\n  var _mountPopupInPage = function _mountPopupInPage() {\n    var POPUP_HTL = document.createElement(\"div\");\n    POPUP_HTL.setAttribute(\"class\", \"popup-hl\");\n    POPUP_HTL.setAttribute(\"opened\", \"true\");\n    POPUP_HTL.innerHTML = \"\\n\\t    <small></small>\\n\\t    <span class=\\\"arrow-down\\\"></span>\\n    \";\n    document.body.appendChild(POPUP_HTL);\n    var INSERT_TO_TRANSLATE = POPUP_HTL.querySelector(\"small\");\n    return {\n      POPUP_HTL: POPUP_HTL,\n      INSERT_TO_TRANSLATE: INSERT_TO_TRANSLATE\n    };\n  };\n\n  var _getSelected = function _getSelected(elemTagName) {\n    var mouseUpTagValid = VALID_TAGS.filter(function (tag) {\n      return elemTagName === tag;\n    });\n\n    if (mouseUpTagValid.length !== 0) {\n      if (window.getSelection) {\n        var text = window.getSelection().toString().trim();\n        if (text.length === 0) return false;\n        return text;\n      }\n    } else {\n      return false;\n    }\n  };\n\n  var _documentMouseUp = function _documentMouseUp(e, popup, targetInsertTranslate) {\n    //let highLightedText = _getSelected(e.target.tagName);\n    var highLightedText = document.getSelection();\n\n    if (highLightedText.toString().length === 0) {\n      popup.classList.remove(\"is-active\");\n      return;\n    }\n\n    detectLanguage(highLightedText.toString(), function (err, detection) {\n      if (detection.language === \"en\") {\n        var text = highLightedText.toString();\n        translate(text, 'pt', function (err, translation) {\n          var rangeT = highLightedText.getRangeAt(0);\n          var rectT = rangeT.getBoundingClientRect();\n          popup.style.top = \"\".concat(rectT.y, \"px\");\n          popup.style.left = \"\".concat(rectT.x - popup.clientWidth / 2 + rectT.width / 2, \"px\");\n          popup.classList.add(\"is-active\");\n          targetInsertTranslate.textContent = \"\".concat(translation.translatedText);\n        });\n      }\n    });\n  };\n\n  var _init = function _init() {\n    var _mountPopupInPage2 = _mountPopupInPage(),\n        POPUP_HTL = _mountPopupInPage2.POPUP_HTL,\n        INSERT_TO_TRANSLATE = _mountPopupInPage2.INSERT_TO_TRANSLATE;\n\n    document.addEventListener(\"mouseup\", function (e) {\n      return _documentMouseUp(e, POPUP_HTL, INSERT_TO_TRANSLATE);\n    });\n    window.addEventListener(\"click\", function () {\n      return POPUP_HTL.classList.remove(\"is-active\");\n    });\n    window.addEventListener(\"scroll\", function () {\n      return POPUP_HTL.classList.remove(\"is-active\");\n    });\n  };\n\n  return {\n    init: _init\n  };\n}();\n\nHTL.init();\n\n//# sourceURL=webpack:///./content.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _libs_translate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./libs/translate */ \"./libs/translate.js\");\n/* harmony import */ var _libs_renderHtml__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs/renderHtml */ \"./libs/renderHtml.js\");\n\n\n\n(function HLT() {\n  var _renderHtml = Object(_libs_renderHtml__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(),\n      popup = _renderHtml.popup,\n      elementToTextTranslated = _renderHtml.elementToTextTranslated;\n\n  document.addEventListener('mouseup', function (e) {\n    var highLightedText = document.getSelection();\n\n    if (highLightedText.toString().length === 0) {\n      popup.classList.remove(\"is-active\");\n      return;\n    }\n\n    Object(_libs_translate__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(highLightedText.toString(), function (translatedText) {\n      var rangeT = highLightedText.getRangeAt(0);\n      var rectT = rangeT.getBoundingClientRect();\n      popup.style.top = \"\".concat(rectT.y, \"px\");\n      popup.style.left = \"\".concat(rectT.x - popup.clientWidth / 2 + rectT.width / 2, \"px\");\n      popup.classList.add(\"is-active\");\n      elementToTextTranslated.textContent = \"\".concat(translatedText);\n    });\n  });\n  window.addEventListener(\"click\", function () {\n    return popup.classList.remove(\"is-active\");\n  });\n  window.addEventListener(\"scroll\", function () {\n    return popup.classList.remove(\"is-active\");\n  });\n})();\n\n//# sourceURL=webpack:///./content.js?");
+
+/***/ }),
+
+/***/ "./libs/renderHtml.js":
+/*!****************************!*\
+  !*** ./libs/renderHtml.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nvar renderHtml = function renderHtml() {\n  var popup = document.createElement(\"div\");\n  popup.setAttribute(\"class\", \"popup-hl\");\n  popup.setAttribute(\"opened\", \"true\");\n  popup.innerHTML = \"\\n    <small></small>\\n    <span class=\\\"arrow-down\\\"></span>\\n  \";\n  document.body.appendChild(popup);\n  var elementToTextTranslated = popup.querySelector(\"small\");\n  return {\n    popup: popup,\n    elementToTextTranslated: elementToTextTranslated\n  };\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (renderHtml);\n\n//# sourceURL=webpack:///./libs/renderHtml.js?");
+
+/***/ }),
+
+/***/ "./libs/translate.js":
+/*!***************************!*\
+  !*** ./libs/translate.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nvar googleTranslate = __webpack_require__(/*! google-translate */ \"./node_modules/google-translate/lib/main.js\")('AIzaSyDCBDC0XEnIJ4Pjf5tjp0J0MdweYzV8NgI');\n\nvar translate = function translate(text, cb) {\n  googleTranslate.detectLanguage(text, function (err, detection) {\n    if (detection.language !== 'en') {\n      cb('O texto selecionado não é English, é: ', detection.language);\n      return;\n    }\n\n    ;\n    googleTranslate.translate(text, 'pt', function (err, translation) {\n      cb(translation.translatedText);\n    });\n  });\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (translate);\n\n//# sourceURL=webpack:///./libs/translate.js?");
 
 /***/ }),
 
