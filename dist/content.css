@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
 
 .popup-hl {
-  font-family: "Roboto", sans-serif;
-  position: absolute;
+  font-family: 'Roboto', sans-serif;
+  position: fixed;
   min-width: 100px;
   max-width: 500px;
   /* font-weight: 600; */
@@ -37,8 +37,7 @@
   -webkit-transition: opacity 0.2s ease-in, -webkit-transform 0.2s ease-in;
   transition: opacity 0.2s ease-in, -webkit-transform 0.2s ease-in;
   transition: opacity 0.2s ease-in, transform 0.2s ease-in;
-  transition: opacity 0.2s ease-in, transform 0.2s ease-in,
-    -webkit-transform 0.2s ease-in;
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in, -webkit-transform 0.2s ease-in;
   /* transition: 0.3s; */
   cursor: pointer;
 }
