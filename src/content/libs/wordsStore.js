@@ -1,25 +1,35 @@
-const wordsStore = () => {
-  const search = wordToCompare => get().filter(word => word.word === wordToCompare);
-  const filter = wordToCompare => get().filter(word => word.word !== wordToCompare);
-  const get = () => JSON.parse(localStorage.getItem('hl-translate')) || [];
+const R = require('ramda');
 
-  const save = (word, translate) => {
+const { get: getLocalStorage, set: setLocalStorage } = require('./localStorageController');
+
+const wordsStore = () => {
+  // const filter = wordToCompare => R.filter(word => word !== wordToCompare, get());
+  const find = word => R.find(R.propEq('word', word))(get());
+  const get = () => getLocalStorage('hl-translate');
+
+  const add = (word, translate) => {
+    const oldWords = get();
     const newWords = { word, translate };
-    const words = get() ? [...get(), newWords] : [newWords];
-    localStorage.setItem('hl-translate', JSON.stringify(words));
+    const updatedWords = oldWords ? [...oldWords, newWords] : [newWords];
+    const hasWord = find(word);
+
+    if (!hasWord) {
+      setLocalStorage('hl-translate', updatedWords);
+    }
   };
 
   const remove = word => {
-    const words = get() ? [...filter(word)] : [newWords];
-    localStorage.setItem('hl-translate', JSON.stringify(words));
+    const hasWord = find(word);
+    if (!hasWord) return;
+
+    const updatedWords = [...filter(word)];
+    setLocalStorage('hl-translate', updatedWords);
   };
 
   return {
     remove,
-    search,
-    filter,
-    get,
-    save,
+    find,
+    add,
   };
 };
 
