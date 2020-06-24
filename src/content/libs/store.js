@@ -1,11 +1,14 @@
 const R = require('ramda');
 
+const { find: findOperator, filter: filterOperator } = require('./operators');
 const { get: getLocalStorage, set: setLocalStorage } = require('./storage');
 
-const wordsStore = () => {
-  // const filter = wordToCompare => R.filter(word => word !== wordToCompare, get());
-  const find = word => R.find(R.propEq('word', word))(get());
+const store = () => {
+  const filter = wordToCompare => filterOperator(get(), wordToCompare);
+  const find = word => findOperator(get(), 'word', word);
+
   const get = () => getLocalStorage('hl-translate');
+  const set = value => setLocalStorage('hl-translate', value);
 
   const add = (word, translate) => {
     const oldWords = get();
@@ -14,7 +17,7 @@ const wordsStore = () => {
     const hasWord = find(word);
 
     if (!hasWord) {
-      setLocalStorage('hl-translate', updatedWords);
+      set(updatedWords);
     }
   };
 
@@ -23,7 +26,7 @@ const wordsStore = () => {
     if (!hasWord) return;
 
     const updatedWords = [...filter(word)];
-    setLocalStorage('hl-translate', updatedWords);
+    set(updatedWords);
   };
 
   return {
@@ -33,4 +36,4 @@ const wordsStore = () => {
   };
 };
 
-module.exports = wordsStore();
+module.exports = store();
