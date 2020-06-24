@@ -1,5 +1,7 @@
 require('regenerator-runtime/runtime');
 
+const R = require('ramda');
+
 const { isApprovedTag } = require('./operators');
 
 const translate = require('./translate');
@@ -32,9 +34,20 @@ const hlTranslate = () => {
     popup.style.top = `${rectT.y}px`;
     popup.style.left = `${rectT.x + rectT.width / 2 - popup.clientWidth / 2}px`;
 
+    if (R.isEmpty(wordsStore.search(selectedText))) {
+      popupButton.classList.remove('is-active');
+    } else {
+      popupButton.classList.add('is-active');
+    }
+
     popupButton.addEventListener('click', function () {
-      this.classList.toggle('is-active');
-      wordsStore.saveWords(selectedText, translatedText);
+      if (this.classList.contains('is-active')) {
+        this.classList.remove('is-active');
+        wordsStore.remove(selectedText);
+      } else {
+        this.classList.add('is-active');
+        wordsStore.save(selectedText, translatedText);
+      }
     });
   });
 
