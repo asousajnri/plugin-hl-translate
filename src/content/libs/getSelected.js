@@ -1,4 +1,4 @@
-const getSelectedText = () => {
+const getSelected = () => {
   const get = () => {
     if (window.getSelection) {
       return window.getSelection();
@@ -18,4 +18,4 @@ const getSelectedText = () => {
   };
 };
 
-module.exports = getSelectedText;
+module.exports = getSelected;

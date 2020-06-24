@@ -5,9 +5,9 @@ const R = require('ramda');
 const { isApprovedTag } = require('./operators');
 
 const translate = require('./translate');
-const getSelectedText = require('./getSelectedText');
+const getSelected = require('./getSelected');
 const popup = require('./popup');
-const wordsStore = require('./wordsStore');
+const store = require('./store');
 
 const hlTranslate = () => {
   const translatePortuguese = translate('pt');
@@ -15,13 +15,13 @@ const hlTranslate = () => {
   document.addEventListener('mouseup', async e => {
     const tagMouseuped = e.target;
 
-    const { objectSelection, selectedText } = getSelectedText();
+    const { objectSelection, selectedText } = getSelected();
     if (!selectedText || !isApprovedTag(tagMouseuped.tagName).length) return;
 
     const { sourceLanguage, translatedText } = await translatePortuguese(selectedText);
     if (sourceLanguage !== 'en' || objectSelection.anchorNode === null) return;
 
-    wordsStore.add(selectedText, translatedText);
+    store.add(selectedText, translatedText);
 
     popup.show({
       objectSelection,

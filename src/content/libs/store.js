@@ -1,6 +1,6 @@
 const R = require('ramda');
 
-const { get: getLocalStorage, set: setLocalStorage } = require('./localStorageController');
+const { get: getLocalStorage, set: setLocalStorage } = require('./storage');
 
 const wordsStore = () => {
   // const filter = wordToCompare => R.filter(word => word !== wordToCompare, get());

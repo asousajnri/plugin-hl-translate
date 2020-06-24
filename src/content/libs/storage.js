@@ -1,4 +1,4 @@
-const localStorageController = () => {
+const storage = () => {
   const set = (key, value) => localStorage.setItem(key, JSON.stringify(value));
   const get = key => JSON.parse(localStorage.getItem(key)) || [];
 
@@ -8,4 +8,4 @@ const localStorageController = () => {
   };
 };
 
-module.exports = localStorageController();
+module.exports = storage();
