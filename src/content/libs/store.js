@@ -21,13 +21,7 @@ const store = () => {
     }
   };
 
-  const remove = word => {
-    const hasWord = find(word);
-    if (!hasWord) return;
-
-    const updatedWords = [...filter(word)];
-    set(updatedWords);
-  };
+  const remove = word => set(filter(word));
 
   return {
     remove,

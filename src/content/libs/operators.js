@@ -7,5 +7,5 @@ module.exports = {
     );
   },
   find: (data, key, value) => R.find(R.propEq(key, value))(data),
-  filter: (data, valueCompare) => R.filter(value => value !== valueCompare, data),
+  filter: (data, valueCompare) => R.filter(value => value.word !== valueCompare, data),
 };

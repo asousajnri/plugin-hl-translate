@@ -9,9 +9,10 @@ const store = require('./store');
 
 const hlTranslate = () => {
   const translatePortuguese = translate('pt');
-  const { buttonListPage, buttonSave } = popup.buttons;
+  // const { buttonListPage, buttonSave } = popup.buttons;
 
   popup.render();
+  popup.closeWithMouseEvent();
 
   document.addEventListener('mouseup', async e => {
     const tagMouseuped = e.target;
@@ -22,14 +23,11 @@ const hlTranslate = () => {
     const { sourceLanguage, translatedText } = await translatePortuguese(selectedText);
     if (sourceLanguage !== 'en' || objectSelection.anchorNode === null) return;
 
-    store.add(selectedText, translatedText);
-
     popup.show({
       objectSelection,
+      selectedText,
       translatedText,
     });
-
-    popup.closeWithMouseEvent();
   });
 };
 
