@@ -3,6 +3,7 @@
   "name": "Highlighted Translate",
   "version": "0.0.1",
   "description": "Extension for translate text selected",
+  "web_accessible_resources": ["images/save-icon.svg", "images/list.svg", "images/trash.svg"],
   "page_action": {
     "default_popup": "",
     "default_icon": {

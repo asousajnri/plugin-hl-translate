@@ -1,7 +1,5 @@
 require('regenerator-runtime/runtime');
 
-const R = require('ramda');
-
 const { isApprovedTag } = require('./operators');
 
 const translate = require('./translate');
@@ -11,6 +9,9 @@ const store = require('./store');
 
 const hlTranslate = () => {
   const translatePortuguese = translate('pt');
+  const { buttonListPage, buttonSave } = popup.buttons;
+
+  popup.render();
 
   document.addEventListener('mouseup', async e => {
     const tagMouseuped = e.target;
@@ -27,6 +28,7 @@ const hlTranslate = () => {
       objectSelection,
       translatedText,
     });
+
     popup.closeWithMouseEvent();
   });
 };

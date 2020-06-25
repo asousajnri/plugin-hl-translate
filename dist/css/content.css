@@ -5,32 +5,29 @@
   position: fixed;
   min-width: 100px;
   max-width: 500px;
-  /* font-weight: 600; */
   font-weight: 400;
-  /* background: #000; */
-  background: #fd237d;
+  background: #c248de;
   color: #fff;
   border-radius: 3px;
   left: 50%;
   top: 50%;
   z-index: 999;
   margin: 0;
-  text-align: center;
   opacity: 0;
+  text-align: center;
   visibility: hidden;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 20px;
+
+  /* padding: 8px 20px; */
   box-sizing: border-box;
   font-size: 14px;
 
-  /* text-transform: uppercase; */
   letter-spacing: 0.6px;
   line-height: 20px;
-  /* -webkit-box-shadow: 2px 2px 2px rgba(35, 35, 35, 0.909);
-  box-shadow: 2px 2px 2px rgba(35, 35, 35, 0.909); */
 
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -39,13 +36,25 @@
   transition: opacity 0.2s ease-in, -webkit-transform 0.2s ease-in;
   transition: opacity 0.2s ease-in, transform 0.2s ease-in;
   transition: opacity 0.2s ease-in, transform 0.2s ease-in, -webkit-transform 0.2s ease-in;
-  /* transition: 0.3s; */
-  /* cursor: pointer; */
+}
+
+.popup-hl * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.popup-hl *:hover,
+.popup-hl *:focus {
+  box-shadow: none;
+  outline: none;
 }
 
 .popup-hl p {
+  padding: 10px 20px;
   margin: 0 !important;
   pointer-events: none;
+  text-align: center;
 }
 
 .popup-hl.is-active {
@@ -63,22 +72,48 @@
   left: calc(50% - 5px);
   -webkit-transform: translateY(50%) rotate(45deg);
   transform: translateY(50%) rotate(45deg);
-  background-color: inherit;
+  background-color: #911fb5;
   z-index: -1;
 }
 
-.popup-hl__button {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  z-index: 2;
-  right: 5px;
-  top: 5px;
-  cursor: pointer;
+.popup-hl__controls {
+  display: flex;
+  justify-content: center;
+
+  background: #911fb5;
+
+  width: 100%;
+  padding: 10px 20px;
 }
 
-.popup-hl__button.is-active {
-  background: #fff;
+.popup-hl__button {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  margin-right: 10px;
 }
+
+.popup-hl__button img {
+  width: 15px;
+}
+
+.popup-hl__button:last-of-type {
+  margin-right: 0;
+}
+
+.popup-hl__button--save {
+  /* opacity: 0.3; */
+  /* transition: 0.5s; */
+}
+/*
+.popup-hl__button--save:hover {
+  opacity: 1;
+}
+
+.popup-hl__button--save.is-active {
+  opacity: 1;
+} */
+
+/* .popup-hl__button.is-active {
+  background: #fff;
+} */
