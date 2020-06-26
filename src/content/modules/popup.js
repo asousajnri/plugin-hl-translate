@@ -1,6 +1,4 @@
-const R = require('ramda');
-
-const store = require('./store');
+const { store } = require('../../libs/index');
 
 const popup = () => {
   const wrapper = document.createElement('DIV');
@@ -58,13 +56,11 @@ const popup = () => {
         ? close()
         : null;
     });
-    document.addEventListener('scroll', e => close());
+    // document.addEventListener('scroll', e => close());
   };
 
   const renderButton = word => {
-    const hasWord = store.find(word);
-
-    if (hasWord) {
+    if (store.hasWord(word)) {
       wrapperControls.appendChild(buttonDelete);
       buttonSave.remove();
     } else {
