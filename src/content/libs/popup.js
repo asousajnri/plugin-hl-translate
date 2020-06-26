@@ -77,14 +77,12 @@ const popup = () => {
     renderButton(selectedText);
 
     buttonSave.addEventListener('click', function () {
-      console.log('button save!');
       store.add(selectedText, translatedText);
       this.remove();
       wrapperControls.appendChild(buttonDelete);
     });
 
     buttonDelete.addEventListener('click', function () {
-      console.log('button delete!');
       store.remove(selectedText);
       this.remove();
       wrapperControls.appendChild(buttonSave);

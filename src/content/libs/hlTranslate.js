@@ -5,11 +5,9 @@ const { isApprovedTag } = require('./operators');
 const translate = require('./translate');
 const getSelected = require('./getSelected');
 const popup = require('./popup');
-const store = require('./store');
 
 const hlTranslate = () => {
   const translatePortuguese = translate('pt');
-  // const { buttonListPage, buttonSave } = popup.buttons;
 
   popup.render();
   popup.closeWithMouseEvent();

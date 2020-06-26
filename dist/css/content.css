@@ -87,10 +87,13 @@
 }
 
 .popup-hl__button {
-  cursor: pointer;
-  background: transparent;
-  border: none;
+  background: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  border: none !important;
   margin-right: 10px;
+  min-height: unset !important;
+  box-shadow: none !important;
 }
 
 .popup-hl__button img {
@@ -100,20 +103,3 @@
 .popup-hl__button:last-of-type {
   margin-right: 0;
 }
-
-.popup-hl__button--save {
-  /* opacity: 0.3; */
-  /* transition: 0.5s; */
-}
-/*
-.popup-hl__button--save:hover {
-  opacity: 1;
-}
-
-.popup-hl__button--save.is-active {
-  opacity: 1;
-} */
-
-/* .popup-hl__button.is-active {
-  background: #fff;
-} */
