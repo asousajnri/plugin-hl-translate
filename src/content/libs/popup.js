@@ -51,9 +51,12 @@ const popup = () => {
       e.stopPropagation();
       const elementClicked = e.target;
 
-      console.log('TARGET CLICK: >> ', e.target);
-
-      elementClicked !== wrapperControls || elementClicked !== text ? close() : null;
+      elementClicked !== wrapperControls &&
+      elementClicked !== text &&
+      elementClicked !== wrapper &&
+      !elementClicked.classList.contains('popup__button-image')
+        ? close()
+        : null;
     });
     document.addEventListener('scroll', e => close());
   };
