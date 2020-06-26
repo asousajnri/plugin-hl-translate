@@ -56,7 +56,7 @@ const popup = () => {
         ? close()
         : null;
     });
-    // document.addEventListener('scroll', e => close());
+    document.addEventListener('scroll', e => close());
   };
 
   const renderButton = word => {
