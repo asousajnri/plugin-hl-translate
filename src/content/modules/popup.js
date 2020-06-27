@@ -59,30 +59,32 @@ const popup = () => {
     document.addEventListener('scroll', e => close());
   };
 
-  const renderButton = word => {
-    if (store.hasWord(word)) {
+  const renderButton = ({ selectedText, translatedText }) => {
+    if (store.hasWord(selectedText)) {
+      buttonDelete.addEventListener('click', function () {
+        store.remove(selectedText);
+        this.remove();
+        wrapperControls.appendChild(buttonSave);
+      });
+
       wrapperControls.appendChild(buttonDelete);
       buttonSave.remove();
     } else {
+      buttonSave.addEventListener('click', function () {
+        store.add(selectedText, translatedText);
+        this.remove();
+        wrapperControls.appendChild(buttonDelete);
+      });
+
       wrapperControls.appendChild(buttonSave);
       buttonDelete.remove();
     }
   };
 
-  const show = ({ objectSelection, selectedText, translatedText }) => {
-    renderButton(selectedText);
+  const show = translateData => {
+    const { objectSelection, translatedText } = translateData;
 
-    buttonSave.addEventListener('click', function () {
-      store.add(selectedText, translatedText);
-      this.remove();
-      wrapperControls.appendChild(buttonDelete);
-    });
-
-    buttonDelete.addEventListener('click', function () {
-      store.remove(selectedText);
-      this.remove();
-      wrapperControls.appendChild(buttonSave);
-    });
+    renderButton(translateData);
 
     const rangeT = objectSelection.getRangeAt(0);
     const rectT = rangeT.getBoundingClientRect();
