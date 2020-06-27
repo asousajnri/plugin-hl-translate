@@ -5,7 +5,7 @@ const store = () => {
   const filter = word => operators.filter(get(), word);
   const find = word => operators.find(get(), word);
   const hasWord = word => operators.hasWord(find(word));
-
+  const remove = word => set(filter(word));
   const get = () => storage.get('hl-translate');
   const set = value => storage.set('hl-translate', value);
 
@@ -18,8 +18,6 @@ const store = () => {
       set(updatedWords);
     }
   };
-
-  const remove = word => set(filter(word));
 
   return {
     remove,

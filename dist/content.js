@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/content/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/content/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -97,102 +97,102 @@ eval("/**\n * Copyright (c) 2014-present, Facebook, Inc.\n *\n * This source cod
 
 /***/ }),
 
-/***/ "./src/content/index.js":
+/***/ "./src/js/content/index.js":
+/*!*********************************!*\
+  !*** ./src/js/content/index.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }\n\nfunction _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"next\", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"throw\", err); } _next(undefined); }); }; }\n\n__webpack_require__(/*! regenerator-runtime/runtime */ \"./node_modules/regenerator-runtime/runtime.js\");\n\nvar _require = __webpack_require__(/*! ../libs/index */ \"./src/js/libs/index.js\"),\n    isApprovedTag = _require.operators.isApprovedTag,\n    translate = _require.translate,\n    getSelected = _require.getSelected;\n\nvar popup = __webpack_require__(/*! ./modules/popup */ \"./src/js/content/modules/popup.js\");\n\n(function () {\n  var translatePortuguese = translate('pt');\n  popup.render();\n  popup.closeWithMouseEvent();\n  document.addEventListener('mouseup', /*#__PURE__*/function () {\n    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {\n      var tagMouseuped, _getSelected, objectSelection, selectedText, _yield$translatePortu, sourceLanguage, translatedText;\n\n      return regeneratorRuntime.wrap(function _callee$(_context) {\n        while (1) {\n          switch (_context.prev = _context.next) {\n            case 0:\n              tagMouseuped = e.target;\n              _getSelected = getSelected(), objectSelection = _getSelected.objectSelection, selectedText = _getSelected.selectedText;\n\n              if (!(!selectedText || !isApprovedTag(tagMouseuped.tagName).length)) {\n                _context.next = 4;\n                break;\n              }\n\n              return _context.abrupt(\"return\");\n\n            case 4:\n              _context.next = 6;\n              return translatePortuguese(selectedText);\n\n            case 6:\n              _yield$translatePortu = _context.sent;\n              sourceLanguage = _yield$translatePortu.sourceLanguage;\n              translatedText = _yield$translatePortu.translatedText;\n\n              if (!(sourceLanguage !== 'en' || objectSelection.anchorNode === null)) {\n                _context.next = 11;\n                break;\n              }\n\n              return _context.abrupt(\"return\");\n\n            case 11:\n              popup.show({\n                objectSelection: objectSelection,\n                selectedText: selectedText,\n                translatedText: translatedText\n              });\n\n            case 12:\n            case \"end\":\n              return _context.stop();\n          }\n        }\n      }, _callee);\n    }));\n\n    return function (_x) {\n      return _ref.apply(this, arguments);\n    };\n  }());\n})();\n\n//# sourceURL=webpack:///./src/js/content/index.js?");
+
+/***/ }),
+
+/***/ "./src/js/content/modules/popup.js":
+/*!*****************************************!*\
+  !*** ./src/js/content/modules/popup.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var _require = __webpack_require__(/*! ../../libs/index */ \"./src/js/libs/index.js\"),\n    store = _require.store;\n\nvar popup = function popup() {\n  var wrapper = document.createElement('DIV');\n  var text = document.createElement('P');\n  var arrowDown = document.createElement('SPAN');\n  var wrapperControls = document.createElement('DIV');\n  var buttonSave = document.createElement('button');\n  var buttonListPage = document.createElement('button');\n  var buttonDelete = document.createElement('button');\n\n  var render = function render() {\n    wrapper.appendChild(text);\n    wrapper.appendChild(wrapperControls);\n    wrapper.appendChild(arrowDown);\n    wrapperControls.appendChild(buttonListPage);\n    wrapper.setAttribute('class', 'popup-hl');\n    arrowDown.setAttribute('class', 'popup-hl__arrow-down');\n    wrapperControls.setAttribute('class', 'popup-hl__controls');\n    buttonSave.setAttribute('class', 'popup-hl__button popup-hl__button--save');\n    buttonSave.innerHTML = \"<img class=\\\"popup__button-image\\\" src=\\\"\".concat(chrome.extension.getURL('images/save-icon.svg'), \"\\\" alt=\\\"button save\\\" />\");\n    buttonListPage.setAttribute('class', 'popup-hl__button popup-hl__button--list-page');\n    buttonListPage.innerHTML = \"<img class=\\\"popup__button-image\\\" src=\\\"\".concat(chrome.extension.getURL('images/list.svg'), \"\\\" alt=\\\"button list\\\" />\");\n    buttonDelete.setAttribute('class', 'popup-hl__button popup-hl__button--list-delete');\n    buttonDelete.innerHTML = \"<img class=\\\"popup__button-image\\\" src=\\\"\".concat(chrome.extension.getURL('images/trash.svg'), \"\\\" alt=\\\"button delete\\\" />\");\n    document.body.appendChild(wrapper);\n  };\n\n  var close = function close() {\n    wrapper.classList.remove('is-active');\n    text.innerHTML = '';\n  };\n\n  var closeWithMouseEvent = function closeWithMouseEvent() {\n    document.addEventListener('click', function (e) {\n      e.stopPropagation();\n      var elementClicked = e.target;\n      elementClicked !== wrapperControls && elementClicked !== text && elementClicked !== wrapper && !elementClicked.classList.contains('popup__button-image') ? close() : null;\n    });\n    document.addEventListener('scroll', function (e) {\n      return close();\n    });\n  };\n\n  var renderButton = function renderButton(_ref) {\n    var selectedText = _ref.selectedText,\n        translatedText = _ref.translatedText;\n\n    if (store.hasWord(selectedText)) {\n      wrapperControls.appendChild(buttonDelete);\n      buttonSave.remove();\n    } else {\n      wrapperControls.appendChild(buttonSave);\n      buttonDelete.remove();\n    }\n\n    buttonDelete.addEventListener('click', function () {\n      store.remove(selectedText);\n      this.remove();\n      wrapperControls.appendChild(buttonSave);\n    });\n    buttonSave.addEventListener('click', function () {\n      store.add(selectedText, translatedText);\n      this.remove();\n      wrapperControls.appendChild(buttonDelete);\n    });\n  };\n\n  var show = function show(translateData) {\n    var objectSelection = translateData.objectSelection,\n        translatedText = translateData.translatedText;\n    renderButton(translateData);\n    var rangeT = objectSelection.getRangeAt(0);\n    var rectT = rangeT.getBoundingClientRect();\n    text.innerHTML = translatedText;\n    wrapper.classList.add('is-active');\n    wrapper.style.top = \"\".concat(rectT.y, \"px\");\n    wrapper.style.left = \"\".concat(rectT.x + rectT.width / 2 - wrapper.clientWidth / 2, \"px\");\n  };\n\n  return {\n    buttons: {\n      buttonSave: buttonSave,\n      buttonListPage: buttonListPage,\n      buttonDelete: buttonDelete\n    },\n    render: render,\n    show: show,\n    closeWithMouseEvent: closeWithMouseEvent,\n    close: close\n  };\n};\n\nmodule.exports = popup();\n\n//# sourceURL=webpack:///./src/js/content/modules/popup.js?");
+
+/***/ }),
+
+/***/ "./src/js/libs/index.js":
 /*!******************************!*\
-  !*** ./src/content/index.js ***!
+  !*** ./src/js/libs/index.js ***!
   \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }\n\nfunction _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"next\", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"throw\", err); } _next(undefined); }); }; }\n\n__webpack_require__(/*! regenerator-runtime/runtime */ \"./node_modules/regenerator-runtime/runtime.js\");\n\nvar _require = __webpack_require__(/*! ../libs/index */ \"./src/libs/index.js\"),\n    isApprovedTag = _require.operators.isApprovedTag,\n    translate = _require.translate,\n    getSelected = _require.getSelected;\n\nvar popup = __webpack_require__(/*! ./modules/popup */ \"./src/content/modules/popup.js\");\n\n(function () {\n  var translatePortuguese = translate('pt');\n  popup.render();\n  popup.closeWithMouseEvent();\n  document.addEventListener('mouseup', /*#__PURE__*/function () {\n    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {\n      var tagMouseuped, _getSelected, objectSelection, selectedText, _yield$translatePortu, sourceLanguage, translatedText;\n\n      return regeneratorRuntime.wrap(function _callee$(_context) {\n        while (1) {\n          switch (_context.prev = _context.next) {\n            case 0:\n              tagMouseuped = e.target;\n              _getSelected = getSelected(), objectSelection = _getSelected.objectSelection, selectedText = _getSelected.selectedText;\n\n              if (!(!selectedText || !isApprovedTag(tagMouseuped.tagName).length)) {\n                _context.next = 4;\n                break;\n              }\n\n              return _context.abrupt(\"return\");\n\n            case 4:\n              _context.next = 6;\n              return translatePortuguese(selectedText);\n\n            case 6:\n              _yield$translatePortu = _context.sent;\n              sourceLanguage = _yield$translatePortu.sourceLanguage;\n              translatedText = _yield$translatePortu.translatedText;\n\n              if (!(sourceLanguage !== 'en' || objectSelection.anchorNode === null)) {\n                _context.next = 11;\n                break;\n              }\n\n              return _context.abrupt(\"return\");\n\n            case 11:\n              popup.show({\n                objectSelection: objectSelection,\n                selectedText: selectedText,\n                translatedText: translatedText\n              });\n\n            case 12:\n            case \"end\":\n              return _context.stop();\n          }\n        }\n      }, _callee);\n    }));\n\n    return function (_x) {\n      return _ref.apply(this, arguments);\n    };\n  }());\n})();\n\n//# sourceURL=webpack:///./src/content/index.js?");
+eval("var getSelected = __webpack_require__(/*! ./modules/getSelected */ \"./src/js/libs/modules/getSelected.js\");\n\nvar translate = __webpack_require__(/*! ./modules/translate */ \"./src/js/libs/modules/translate.js\");\n\nvar composition = __webpack_require__(/*! ./modules/composition */ \"./src/js/libs/modules/composition.js\");\n\nvar storage = __webpack_require__(/*! ./modules/storage */ \"./src/js/libs/modules/storage.js\");\n\nvar operators = __webpack_require__(/*! ./modules/operators */ \"./src/js/libs/modules/operators.js\");\n\nvar store = __webpack_require__(/*! ./modules/store */ \"./src/js/libs/modules/store.js\");\n\nmodule.exports = {\n  getSelected: getSelected,\n  translate: translate,\n  composition: composition,\n  storage: storage,\n  operators: operators,\n  store: store\n};\n\n//# sourceURL=webpack:///./src/js/libs/index.js?");
 
 /***/ }),
 
-/***/ "./src/content/modules/popup.js":
+/***/ "./src/js/libs/modules/composition.js":
+/*!********************************************!*\
+  !*** ./src/js/libs/modules/composition.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("var composition = function composition() {\n  for (var _len = arguments.length, functions = new Array(_len), _key = 0; _key < _len; _key++) {\n    functions[_key] = arguments[_key];\n  }\n\n  return function (valor) {\n    return functions.reduce(function (acc, fn) {\n      return fn(acc);\n    }, valor);\n  };\n};\n\nmodule.exports = composition;\n\n//# sourceURL=webpack:///./src/js/libs/modules/composition.js?");
+
+/***/ }),
+
+/***/ "./src/js/libs/modules/getSelected.js":
+/*!********************************************!*\
+  !*** ./src/js/libs/modules/getSelected.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("var getSelected = function getSelected() {\n  var get = function get() {\n    if (window.getSelection) {\n      return window.getSelection();\n    } else if (document.getSelection) {\n      return document.getSelection();\n    } else if (document.selection) {\n      return document.selection.createRange().text;\n    }\n  };\n\n  var objectSelection = get();\n  var selectedText = objectSelection.toString();\n  return {\n    objectSelection: objectSelection,\n    selectedText: selectedText\n  };\n};\n\nmodule.exports = getSelected;\n\n//# sourceURL=webpack:///./src/js/libs/modules/getSelected.js?");
+
+/***/ }),
+
+/***/ "./src/js/libs/modules/operators.js":
+/*!******************************************!*\
+  !*** ./src/js/libs/modules/operators.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = {\n  isApprovedTag: function isApprovedTag(tagTarget) {\n    return ['p', 'h1', 'h2', 'span', 'b', 'em', 'code', 'a'].filter(function (tag) {\n      return tagTarget.toUpperCase() === tag.toUpperCase();\n    });\n  },\n  find: function find(data, word) {\n    var query = data.filter(function (value) {\n      return value.word === word;\n    });\n\n    if (query.length !== 0) {\n      return query;\n    } else {\n      return null;\n    }\n  },\n  hasWord: function hasWord(query) {\n    if (query) {\n      return true;\n    } else {\n      return false;\n    }\n  },\n  filter: function filter(data, word) {\n    return data.filter(function (value) {\n      return value.word !== word;\n    });\n  }\n};\n\n//# sourceURL=webpack:///./src/js/libs/modules/operators.js?");
+
+/***/ }),
+
+/***/ "./src/js/libs/modules/storage.js":
+/*!****************************************!*\
+  !*** ./src/js/libs/modules/storage.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("var storage = function storage() {\n  var set = function set(key, value) {\n    return localStorage.setItem(key, JSON.stringify(value));\n  };\n\n  var get = function get(key) {\n    return JSON.parse(localStorage.getItem(key)) || [];\n  };\n\n  return {\n    get: get,\n    set: set\n  };\n};\n\nmodule.exports = storage();\n\n//# sourceURL=webpack:///./src/js/libs/modules/storage.js?");
+
+/***/ }),
+
+/***/ "./src/js/libs/modules/store.js":
 /*!**************************************!*\
-  !*** ./src/content/modules/popup.js ***!
+  !*** ./src/js/libs/modules/store.js ***!
   \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var _require = __webpack_require__(/*! ../../libs/index */ \"./src/libs/index.js\"),\n    store = _require.store;\n\nvar popup = function popup() {\n  var wrapper = document.createElement('DIV');\n  var text = document.createElement('P');\n  var arrowDown = document.createElement('SPAN');\n  var wrapperControls = document.createElement('DIV');\n  var buttonSave = document.createElement('button');\n  var buttonListPage = document.createElement('button');\n  var buttonDelete = document.createElement('button');\n\n  var render = function render() {\n    wrapper.appendChild(text);\n    wrapper.appendChild(wrapperControls);\n    wrapper.appendChild(arrowDown);\n    wrapperControls.appendChild(buttonListPage);\n    wrapper.setAttribute('class', 'popup-hl');\n    arrowDown.setAttribute('class', 'popup-hl__arrow-down');\n    wrapperControls.setAttribute('class', 'popup-hl__controls');\n    buttonSave.setAttribute('class', 'popup-hl__button popup-hl__button--save');\n    buttonSave.innerHTML = \"<img class=\\\"popup__button-image\\\" src=\\\"\".concat(chrome.extension.getURL('images/save-icon.svg'), \"\\\" alt=\\\"button save\\\" />\");\n    buttonListPage.setAttribute('class', 'popup-hl__button popup-hl__button--list-page');\n    buttonListPage.innerHTML = \"<img class=\\\"popup__button-image\\\" src=\\\"\".concat(chrome.extension.getURL('images/list.svg'), \"\\\" alt=\\\"button list\\\" />\");\n    buttonDelete.setAttribute('class', 'popup-hl__button popup-hl__button--list-delete');\n    buttonDelete.innerHTML = \"<img class=\\\"popup__button-image\\\" src=\\\"\".concat(chrome.extension.getURL('images/trash.svg'), \"\\\" alt=\\\"button delete\\\" />\");\n    document.body.appendChild(wrapper);\n  };\n\n  var close = function close() {\n    wrapper.classList.remove('is-active');\n    text.innerHTML = '';\n  };\n\n  var closeWithMouseEvent = function closeWithMouseEvent() {\n    document.addEventListener('click', function (e) {\n      e.stopPropagation();\n      var elementClicked = e.target;\n      elementClicked !== wrapperControls && elementClicked !== text && elementClicked !== wrapper && !elementClicked.classList.contains('popup__button-image') ? close() : null;\n    });\n    document.addEventListener('scroll', function (e) {\n      return close();\n    });\n  };\n\n  var renderButton = function renderButton(_ref) {\n    var selectedText = _ref.selectedText,\n        translatedText = _ref.translatedText;\n\n    if (store.hasWord(selectedText)) {\n      buttonDelete.addEventListener('click', function () {\n        store.remove(selectedText);\n        this.remove();\n        wrapperControls.appendChild(buttonSave);\n      });\n      wrapperControls.appendChild(buttonDelete);\n      buttonSave.remove();\n    } else {\n      buttonSave.addEventListener('click', function () {\n        store.add(selectedText, translatedText);\n        this.remove();\n        wrapperControls.appendChild(buttonDelete);\n      });\n      wrapperControls.appendChild(buttonSave);\n      buttonDelete.remove();\n    }\n  };\n\n  var show = function show(translateData) {\n    var objectSelection = translateData.objectSelection,\n        translatedText = translateData.translatedText;\n    renderButton(translateData);\n    var rangeT = objectSelection.getRangeAt(0);\n    var rectT = rangeT.getBoundingClientRect();\n    text.innerHTML = translatedText;\n    wrapper.classList.add('is-active');\n    wrapper.style.top = \"\".concat(rectT.y, \"px\");\n    wrapper.style.left = \"\".concat(rectT.x + rectT.width / 2 - wrapper.clientWidth / 2, \"px\");\n  };\n\n  return {\n    buttons: {\n      buttonSave: buttonSave,\n      buttonListPage: buttonListPage,\n      buttonDelete: buttonDelete\n    },\n    render: render,\n    show: show,\n    closeWithMouseEvent: closeWithMouseEvent,\n    close: close\n  };\n};\n\nmodule.exports = popup();\n\n//# sourceURL=webpack:///./src/content/modules/popup.js?");
+eval("function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }\n\nfunction _nonIterableSpread() { throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _iterableToArray(iter) { if (typeof Symbol !== \"undefined\" && Symbol.iterator in Object(iter)) return Array.from(iter); }\n\nfunction _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nvar operators = __webpack_require__(/*! ./operators */ \"./src/js/libs/modules/operators.js\");\n\nvar storage = __webpack_require__(/*! ./storage */ \"./src/js/libs/modules/storage.js\");\n\nvar store = function store() {\n  var filter = function filter(word) {\n    return operators.filter(get(), word);\n  };\n\n  var find = function find(word) {\n    return operators.find(get(), word);\n  };\n\n  var hasWord = function hasWord(word) {\n    return operators.hasWord(find(word));\n  };\n\n  var remove = function remove(word) {\n    return set(filter(word));\n  };\n\n  var get = function get() {\n    return storage.get('hl-translate');\n  };\n\n  var set = function set(value) {\n    return storage.set('hl-translate', value);\n  };\n\n  var add = function add(word, translate) {\n    var oldWords = get();\n    var newWords = {\n      word: word,\n      translate: translate\n    };\n    var updatedWords = oldWords ? [].concat(_toConsumableArray(oldWords), [newWords]) : [newWords];\n\n    if (!hasWord(word)) {\n      set(updatedWords);\n    }\n  };\n\n  return {\n    remove: remove,\n    find: find,\n    hasWord: hasWord,\n    add: add\n  };\n};\n\nmodule.exports = store();\n\n//# sourceURL=webpack:///./src/js/libs/modules/store.js?");
 
 /***/ }),
 
-/***/ "./src/libs/index.js":
-/*!***************************!*\
-  !*** ./src/libs/index.js ***!
-  \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var getSelected = __webpack_require__(/*! ./modules/getSelected */ \"./src/libs/modules/getSelected.js\");\n\nvar translate = __webpack_require__(/*! ./modules/translate */ \"./src/libs/modules/translate.js\");\n\nvar composition = __webpack_require__(/*! ./modules/composition */ \"./src/libs/modules/composition.js\");\n\nvar storage = __webpack_require__(/*! ./modules/storage */ \"./src/libs/modules/storage.js\");\n\nvar operators = __webpack_require__(/*! ./modules/operators */ \"./src/libs/modules/operators.js\");\n\nvar store = __webpack_require__(/*! ./modules/store */ \"./src/libs/modules/store.js\");\n\nmodule.exports = {\n  getSelected: getSelected,\n  translate: translate,\n  composition: composition,\n  storage: storage,\n  operators: operators,\n  store: store\n};\n\n//# sourceURL=webpack:///./src/libs/index.js?");
-
-/***/ }),
-
-/***/ "./src/libs/modules/composition.js":
-/*!*****************************************!*\
-  !*** ./src/libs/modules/composition.js ***!
-  \*****************************************/
+/***/ "./src/js/libs/modules/translate.js":
+/*!******************************************!*\
+  !*** ./src/js/libs/modules/translate.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("var composition = function composition() {\n  for (var _len = arguments.length, functions = new Array(_len), _key = 0; _key < _len; _key++) {\n    functions[_key] = arguments[_key];\n  }\n\n  return function (valor) {\n    return functions.reduce(function (acc, fn) {\n      return fn(acc);\n    }, valor);\n  };\n};\n\nmodule.exports = composition;\n\n//# sourceURL=webpack:///./src/libs/modules/composition.js?");
-
-/***/ }),
-
-/***/ "./src/libs/modules/getSelected.js":
-/*!*****************************************!*\
-  !*** ./src/libs/modules/getSelected.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("var getSelected = function getSelected() {\n  var get = function get() {\n    if (window.getSelection) {\n      return window.getSelection();\n    } else if (document.getSelection) {\n      return document.getSelection();\n    } else if (document.selection) {\n      return document.selection.createRange().text;\n    }\n  };\n\n  var objectSelection = get();\n  var selectedText = objectSelection.toString();\n  return {\n    objectSelection: objectSelection,\n    selectedText: selectedText\n  };\n};\n\nmodule.exports = getSelected;\n\n//# sourceURL=webpack:///./src/libs/modules/getSelected.js?");
-
-/***/ }),
-
-/***/ "./src/libs/modules/operators.js":
-/*!***************************************!*\
-  !*** ./src/libs/modules/operators.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = {\n  isApprovedTag: function isApprovedTag(tagTarget) {\n    return ['p', 'h1', 'h2', 'span', 'b', 'em', 'code', 'a'].filter(function (tag) {\n      return tagTarget.toUpperCase() === tag.toUpperCase();\n    });\n  },\n  find: function find(data, word) {\n    var query = data.filter(function (value) {\n      return value.word === word;\n    });\n\n    if (query.length !== 0) {\n      return query;\n    } else {\n      return null;\n    }\n  },\n  hasWord: function hasWord(query) {\n    if (query) {\n      return true;\n    } else {\n      return false;\n    }\n  },\n  filter: function filter(data, word) {\n    return data.filter(function (value) {\n      return value.word !== word;\n    });\n  }\n};\n\n//# sourceURL=webpack:///./src/libs/modules/operators.js?");
-
-/***/ }),
-
-/***/ "./src/libs/modules/storage.js":
-/*!*************************************!*\
-  !*** ./src/libs/modules/storage.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("var storage = function storage() {\n  var set = function set(key, value) {\n    return localStorage.setItem(key, JSON.stringify(value));\n  };\n\n  var get = function get(key) {\n    return JSON.parse(localStorage.getItem(key)) || [];\n  };\n\n  return {\n    get: get,\n    set: set\n  };\n};\n\nmodule.exports = storage();\n\n//# sourceURL=webpack:///./src/libs/modules/storage.js?");
-
-/***/ }),
-
-/***/ "./src/libs/modules/store.js":
-/*!***********************************!*\
-  !*** ./src/libs/modules/store.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }\n\nfunction _nonIterableSpread() { throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\"); }\n\nfunction _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === \"string\") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === \"Object\" && o.constructor) n = o.constructor.name; if (n === \"Map\" || n === \"Set\") return Array.from(o); if (n === \"Arguments\" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }\n\nfunction _iterableToArray(iter) { if (typeof Symbol !== \"undefined\" && Symbol.iterator in Object(iter)) return Array.from(iter); }\n\nfunction _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }\n\nfunction _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }\n\nvar operators = __webpack_require__(/*! ./operators */ \"./src/libs/modules/operators.js\");\n\nvar storage = __webpack_require__(/*! ./storage */ \"./src/libs/modules/storage.js\");\n\nvar store = function store() {\n  var filter = function filter(word) {\n    return operators.filter(get(), word);\n  };\n\n  var find = function find(word) {\n    return operators.find(get(), word);\n  };\n\n  var hasWord = function hasWord(word) {\n    return operators.hasWord(find(word));\n  };\n\n  var get = function get() {\n    return storage.get('hl-translate');\n  };\n\n  var set = function set(value) {\n    return storage.set('hl-translate', value);\n  };\n\n  var add = function add(word, translate) {\n    var oldWords = get();\n    var newWords = {\n      word: word,\n      translate: translate\n    };\n    var updatedWords = oldWords ? [].concat(_toConsumableArray(oldWords), [newWords]) : [newWords];\n\n    if (!hasWord(word)) {\n      set(updatedWords);\n    }\n  };\n\n  var remove = function remove(word) {\n    return set(filter(word));\n  };\n\n  return {\n    remove: remove,\n    find: find,\n    hasWord: hasWord,\n    add: add\n  };\n};\n\nmodule.exports = store();\n\n//# sourceURL=webpack:///./src/libs/modules/store.js?");
-
-/***/ }),
-
-/***/ "./src/libs/modules/translate.js":
-/*!***************************************!*\
-  !*** ./src/libs/modules/translate.js ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }\n\nfunction _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"next\", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"throw\", err); } _next(undefined); }); }; }\n\nvar translate = function translate(target) {\n  return /*#__PURE__*/function () {\n    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(word) {\n      var key, response, _yield$response$json, data;\n\n      return regeneratorRuntime.wrap(function _callee$(_context) {\n        while (1) {\n          switch (_context.prev = _context.next) {\n            case 0:\n              key = 'AIzaSyDCBDC0XEnIJ4Pjf5tjp0J0MdweYzV8NgI';\n              _context.next = 3;\n              return fetch(\"https://translation.googleapis.com/language/translate/v2/?key=\".concat(key), {\n                method: 'POST',\n                mode: 'cors',\n                body: JSON.stringify({\n                  q: [word],\n                  target: target\n                })\n              });\n\n            case 3:\n              response = _context.sent;\n              _context.next = 6;\n              return response.json();\n\n            case 6:\n              _yield$response$json = _context.sent;\n              data = _yield$response$json.data;\n              return _context.abrupt(\"return\", {\n                sourceLanguage: data.translations[0].detectedSourceLanguage,\n                translatedText: data.translations[0].translatedText\n              });\n\n            case 9:\n            case \"end\":\n              return _context.stop();\n          }\n        }\n      }, _callee);\n    }));\n\n    return function (_x) {\n      return _ref.apply(this, arguments);\n    };\n  }();\n};\n\nmodule.exports = translate;\n\n//# sourceURL=webpack:///./src/libs/modules/translate.js?");
+eval("function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }\n\nfunction _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"next\", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, \"throw\", err); } _next(undefined); }); }; }\n\nvar translate = function translate(target) {\n  return /*#__PURE__*/function () {\n    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(word) {\n      var key, response, _yield$response$json, data;\n\n      return regeneratorRuntime.wrap(function _callee$(_context) {\n        while (1) {\n          switch (_context.prev = _context.next) {\n            case 0:\n              key = 'AIzaSyDCBDC0XEnIJ4Pjf5tjp0J0MdweYzV8NgI';\n              _context.next = 3;\n              return fetch(\"https://translation.googleapis.com/language/translate/v2/?key=\".concat(key), {\n                method: 'POST',\n                mode: 'cors',\n                body: JSON.stringify({\n                  q: [word],\n                  target: target\n                })\n              });\n\n            case 3:\n              response = _context.sent;\n              _context.next = 6;\n              return response.json();\n\n            case 6:\n              _yield$response$json = _context.sent;\n              data = _yield$response$json.data;\n              return _context.abrupt(\"return\", {\n                sourceLanguage: data.translations[0].detectedSourceLanguage,\n                translatedText: data.translations[0].translatedText\n              });\n\n            case 9:\n            case \"end\":\n              return _context.stop();\n          }\n        }\n      }, _callee);\n    }));\n\n    return function (_x) {\n      return _ref.apply(this, arguments);\n    };\n  }();\n};\n\nmodule.exports = translate;\n\n//# sourceURL=webpack:///./src/js/libs/modules/translate.js?");
 
 /***/ })
 

@@ -61,24 +61,24 @@ const popup = () => {
 
   const renderButton = ({ selectedText, translatedText }) => {
     if (store.hasWord(selectedText)) {
-      buttonDelete.addEventListener('click', function () {
-        store.remove(selectedText);
-        this.remove();
-        wrapperControls.appendChild(buttonSave);
-      });
-
       wrapperControls.appendChild(buttonDelete);
       buttonSave.remove();
     } else {
-      buttonSave.addEventListener('click', function () {
-        store.add(selectedText, translatedText);
-        this.remove();
-        wrapperControls.appendChild(buttonDelete);
-      });
-
       wrapperControls.appendChild(buttonSave);
       buttonDelete.remove();
     }
+
+    buttonDelete.addEventListener('click', function () {
+      store.remove(selectedText);
+      this.remove();
+      wrapperControls.appendChild(buttonSave);
+    });
+
+    buttonSave.addEventListener('click', function () {
+      store.add(selectedText, translatedText);
+      this.remove();
+      wrapperControls.appendChild(buttonDelete);
+    });
   };
 
   const show = translateData => {
