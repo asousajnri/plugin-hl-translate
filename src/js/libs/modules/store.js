@@ -20,6 +20,7 @@ const store = () => {
   };
 
   return {
+    get,
     remove,
     find,
     hasWord,
