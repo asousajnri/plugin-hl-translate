@@ -1,9 +1,7 @@
-const {
-  store: { get },
-} = require('../libs/index');
+import { store } from '../libs/index';
 
 (() => {
-  const allWords = get();
+  const allWords = store.get();
   const tableWords = document.querySelector('.container__list-words');
   const tableRow = document.createElement('LI');
 

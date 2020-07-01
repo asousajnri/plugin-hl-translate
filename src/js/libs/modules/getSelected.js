@@ -18,4 +18,4 @@ const getSelected = () => {
   };
 };
 
-module.exports = getSelected;
+export default getSelected;

@@ -1,15 +1,8 @@
-const getSelected = require('./modules/getSelected');
-const translate = require('./modules/translate');
-const composition = require('./modules/composition');
-const storage = require('./modules/storage');
-const operators = require('./modules/operators');
-const store = require('./modules/store');
+import getSelected from './modules/getSelected';
+import translate from './modules/translate';
+import composition from './modules/composition';
+import storage from './modules/storage';
+import operators from './modules/operators';
+import store from './modules/store';
 
-module.exports = {
-  getSelected,
-  translate,
-  composition,
-  storage,
-  operators,
-  store,
-};
+export { getSelected, translate, composition, storage, operators, store };

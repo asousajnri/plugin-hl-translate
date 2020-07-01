@@ -1,11 +1,8 @@
-const storage = () => {
-  const set = (key, value) => localStorage.setItem(key, JSON.stringify(value));
-  const get = key => JSON.parse(localStorage.getItem(key)) || [];
-
-  return {
-    get,
-    set,
-  };
+export default {
+  get(key) {
+    return JSON.parse(localStorage.getItem(key)) || [];
+  },
+  set(key, value) {
+    return localStorage.setItem(key, JSON.stringify(value));
+  },
 };
-
-module.exports = storage();

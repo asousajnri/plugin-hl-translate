@@ -1,4 +1,4 @@
-const { store } = require('../../libs/index');
+import { store } from '../../libs/index';
 
 const popup = () => {
   const wrapper = document.createElement('DIV');
@@ -109,4 +109,4 @@ const popup = () => {
   };
 };
 
-module.exports = popup();
+export default popup();

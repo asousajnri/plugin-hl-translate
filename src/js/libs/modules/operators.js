@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   isApprovedTag(tagTarget) {
     return ['p', 'h1', 'h2', 'span', 'b', 'em', 'code', 'a'].filter(
       tag => tagTarget.toUpperCase() === tag.toUpperCase()

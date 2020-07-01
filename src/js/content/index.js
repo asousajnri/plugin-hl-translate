@@ -1,12 +1,9 @@
-require('regenerator-runtime/runtime');
+import 'regenerator-runtime/runtime';
 
-const {
-  operators: { isApprovedTag },
-  translate,
-  getSelected,
-} = require('../libs/index');
+import { operators, translate, getSelected } from '../libs/index';
+const { isApprovedTag } = operators;
 
-const popup = require('./modules/popup');
+import popup from './modules/popup';
 
 (() => {
   const translatePortuguese = translate('pt');

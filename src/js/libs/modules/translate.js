@@ -20,4 +20,4 @@ const translate = target => async word => {
   };
 };
 
-module.exports = translate;
+export default translate;
