@@ -5,6 +5,8 @@ export default {
     );
   },
   find(data, word) {
+    if (data.length === 0 || data === undefined) return null;
+
     const query = data.filter(value => value.word === word);
     if (query.length !== 0) {
       return query;

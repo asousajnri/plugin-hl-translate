@@ -1,4 +1,6 @@
-import { store } from '../../libs/index';
+import { vocabulary, operators } from '../../libs';
+
+const { hasWord, find } = operators;
 
 const popup = () => {
   const wrapper = document.createElement('DIV');
@@ -59,8 +61,8 @@ const popup = () => {
     document.addEventListener('scroll', e => close());
   };
 
-  const renderButton = ({ selectedText, translatedText }) => {
-    if (store.hasWord(selectedText)) {
+  const renderButton = async ({ selectedText, translatedText }) => {
+    if (hasWord(find(await vocabulary.index(), selectedText))) {
       wrapperControls.appendChild(buttonDelete);
       buttonSave.remove();
     } else {
@@ -68,14 +70,15 @@ const popup = () => {
       buttonDelete.remove();
     }
 
-    buttonDelete.addEventListener('click', function () {
-      store.remove(selectedText);
-      this.remove();
-      wrapperControls.appendChild(buttonSave);
-    });
+    // buttonDelete.addEventListener('click', function () {
+    //   store.remove(selectedText);
+    //   this.remove();
+    //   wrapperControls.appendChild(buttonSave);
+    // });
 
-    buttonSave.addEventListener('click', function () {
-      store.add(selectedText, translatedText);
+    buttonSave.addEventListener('click', async function () {
+      // store.add(selectedText, translatedText);
+      await vocabulary.store([{ word: selectedText, translate: translatedText }]);
       this.remove();
       wrapperControls.appendChild(buttonDelete);
     });
