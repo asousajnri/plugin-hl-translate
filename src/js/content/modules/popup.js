@@ -44,8 +44,8 @@ const popup = () => {
 
     wrapperNotifyTranslate.innerHTML = `
       <p>
-        <b>By:</b> ${sourceLanguage}
-        <b>To:</b> pt-br
+        By: <b>${sourceLanguage}</b>
+        To: <b>pt-br</b>
       </p>
     `;
 
