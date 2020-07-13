@@ -23,6 +23,7 @@ import popup from './modules/popup';
     popup.show({
       objectSelection,
       selectedText,
+      sourceLanguage,
       translatedText,
     });
   });

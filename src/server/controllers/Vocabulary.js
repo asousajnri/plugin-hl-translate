@@ -10,10 +10,12 @@ module.exports = {
   async store(req, res) {
     const { words } = req.body;
 
-    const vocabulary = await Vocabulary.create({
-      words,
-    });
+    console.log(words);
 
-    return res.json(vocabulary);
+    // const vocabulary = await Vocabulary.create({
+    //   words,
+    // });
+
+    return res.json({ msg: 'Ok' });
   },
 };
