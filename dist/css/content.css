@@ -97,6 +97,10 @@
   font-size: 12px;
 }
 
+.popup-hl__notify-translate b {
+  text-transform: uppercase;
+}
+
 .popup-hl__button {
   background: none !important;
   padding: 0 !important;

@@ -4,6 +4,7 @@ module.exports = {
   entry: {
     content: './src/js/content/index.js',
     options: './src/js/options/index.js',
+    popup: './src/js/popup/index.js',
   },
   output: {
     filename: '[name].js',

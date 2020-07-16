@@ -1,8 +1,21 @@
 export default {
   isApprovedTag(tagTarget) {
-    return ['p', 'h1', 'h2', 'span', 'b', 'em', 'code', 'a'].filter(
-      tag => tagTarget.toUpperCase() === tag.toUpperCase()
-    );
+    return [
+      'p',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'span',
+      'b',
+      'em',
+      'code',
+      'a',
+      'li',
+      'small',
+      'div',
+    ].filter(tag => tagTarget.toUpperCase() === tag.toUpperCase());
   },
   find(data, word) {
     if (data.length === 0 || data === undefined) return null;
