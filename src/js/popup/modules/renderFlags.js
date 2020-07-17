@@ -1,4 +1,4 @@
-import flags from './flags';
+import { flags } from '../../libs';
 
 export default () => {
   const languages = document.querySelector('.languages__list');
@@ -12,10 +12,9 @@ export default () => {
       'src',
       chrome.extension.getURL(`images/flags/${flags[flag].image}.png`)
     );
+
     itemList.appendChild(itemListImage);
-
     languages.appendChild(itemList);
-
     languagesItems.push({ flagPreffix: flags[flag].preffix, flagItemHTML: itemList });
   }
 
