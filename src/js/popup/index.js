@@ -9,8 +9,16 @@ import persist from './modules/persist';
 
   enableSwitcher.checked = states.enable;
 
+  chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
+    chrome.tabs.sendMessage(tabs[0].id, { states: persist.get() });
+  });
+
   enableSwitcher.addEventListener('click', () => {
     persist.set({ ...states, enable: enableSwitcher.checked });
+
+    chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, { states: persist.get() });
+    });
   });
 
   flagsItemLanguage.map(flag => {
@@ -22,10 +30,12 @@ import persist from './modules/persist';
     }
 
     flagItemHTML.addEventListener('click', () => {
-      if (!isSelectedFlag(flagsItemLanguage, flagItemHTML))
-        throw new Error('Essa flag não existe na lista de flags');
-
+      isSelectedFlag(flagsItemLanguage, flagItemHTML);
       persist.set({ ...states, isSelectedFlag: flagPreffix });
+
+      chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
+        chrome.tabs.sendMessage(tabs[0].id, { states: persist.get() });
+      });
     });
   });
 })();

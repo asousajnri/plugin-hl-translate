@@ -5,7 +5,7 @@ const persist = () => {
   };
 
   const initialState = {
-    enable: true,
+    enable: false,
     isSelectedFlag: 'en',
   };
 

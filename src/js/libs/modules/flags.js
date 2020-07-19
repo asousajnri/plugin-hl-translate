@@ -47,6 +47,10 @@ export default {
     preffix: 'ru',
     image: '228-russia',
   },
+  brazil: {
+    preffix: 'pt',
+    image: '250-brazil',
+  },
   servia: {
     preffix: 'sr',
     image: '035-serbia',

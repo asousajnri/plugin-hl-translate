@@ -39,6 +39,8 @@ const popup = () => {
     document.addEventListener('scroll', e => close());
   };
 
+  const hide = () => wrapper.remove();
+
   const show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
 
@@ -62,6 +64,7 @@ const popup = () => {
   return {
     render,
     show,
+    hide,
     closeWithMouseEvent,
     close,
   };
