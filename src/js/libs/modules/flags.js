@@ -27,10 +27,10 @@ export default {
     preffix: 'de',
     image: '066-germany',
   },
-  portugal: {
-    preffix: 'pt',
-    image: '174-portugal',
-  },
+  // portugal: {
+  //   preffix: 'pt',
+  //   image: '174-portugal',
+  // },
   south_korea: {
     preffix: 'ko',
     image: '055-south-korea',

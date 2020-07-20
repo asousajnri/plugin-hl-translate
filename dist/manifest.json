@@ -8,7 +8,7 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
   "web_accessible_resources": ["images/save-icon.svg", "images/list.svg", "images/trash.svg"],
 
-  "permissions": ["tabs"],
+  "permissions": ["activeTab", "storage", "identity", "tabs", "http://*/", "https://*/"],
 
   "browser_action": {
     "default_icon": {
@@ -28,7 +28,8 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
-      "css": ["css/content.css"]
+      "css": ["css/content.css"],
+      "run_at": "document_end"
     }
   ]
 }

@@ -7,15 +7,9 @@ import chromeOperators from './modules/chrome';
 import popup from './modules/popup';
 
 const start = () => {
-  chromeOperators.listenerStatesFromPopup(start);
-
-  const states = JSON.parse(localStorage.getItem('plugin_hl-t'));
-
   const handleMouseUp = async e => {
     const tagMouseuped = e.target;
-    const { isSelectedFlag: targetLanguage } = JSON.parse(localStorage.getItem('plugin_hl-t'));
-
-    const translateText = translate(targetLanguage);
+    const translateText = translate('pt');
 
     const { objectSelection, selectedText } = getSelected();
     if (!selectedText || !isApprovedTag(tagMouseuped.tagName).length) return;
@@ -31,14 +25,9 @@ const start = () => {
     });
   };
 
-  if (states.enable) {
-    popup.render();
-    popup.closeWithMouseEvent();
-    document.addEventListener('mouseup', handleMouseUp);
-  } else {
-    popup.hide();
-    document.removeEventListener('mouseup', handleMouseUp);
-  }
+  popup.render();
+  popup.closeWithMouseEvent();
+  document.addEventListener('mouseup', handleMouseUp);
 };
 
 start();
