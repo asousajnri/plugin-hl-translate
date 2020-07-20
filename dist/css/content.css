@@ -95,10 +95,19 @@
 .popup-hl__notify-translate p {
   padding: 0;
   font-size: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .popup-hl__notify-translate b {
   text-transform: uppercase;
+}
+
+.popup-hl__notify-translate img {
+  width: 20px;
+  margin: 0 5px;
 }
 
 .popup-hl__button {

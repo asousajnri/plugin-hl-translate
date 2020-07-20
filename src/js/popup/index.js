@@ -1,7 +1,6 @@
 import renderFlags from './modules/renderFlags';
 import isSelectedFlag from './modules/isSelectedFlag';
 import persist from './modules/persist';
-import chromeOperators from './modules/chrome';
 
 (() => {
   const states = persist.get();

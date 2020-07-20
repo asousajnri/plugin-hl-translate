@@ -3,7 +3,6 @@ import 'regenerator-runtime/runtime';
 import { operators, translate, getSelected } from '../libs/index';
 const { isApprovedTag } = operators;
 
-import chromeOperators from './modules/chrome';
 import popup from './modules/popup';
 
 const start = () => {

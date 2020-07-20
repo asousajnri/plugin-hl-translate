@@ -1,9 +1,10 @@
-import { vocabulary, operators } from '../../libs';
+import { flags } from '../../libs';
 
 const popup = () => {
   const wrapper = document.createElement('DIV');
   const text = document.createElement('P');
   const arrowDown = document.createElement('SPAN');
+  const listLanguages = document.createElement('UL');
 
   const wrapperNotifyTranslate = document.createElement('DIV');
 
@@ -41,13 +42,23 @@ const popup = () => {
 
   const hide = () => wrapper.remove();
 
+  const getUrlFlagImage = flagSelected => {
+    for (let flag in flags) {
+      if (flags[flag].preffix === flagSelected) {
+        return chrome.extension.getURL(`images/flags/${flags[flag].image}.png`);
+      }
+    }
+  };
+
   const show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
 
+    console.log(getUrlFlagImage('en'));
+
     wrapperNotifyTranslate.innerHTML = `
       <p>
-        By: <b>${sourceLanguage}</b>
-        To: <b>pt-br</b>
+        By: <img src="${getUrlFlagImage(sourceLanguage)}" alt="" />
+        To: <img src="${getUrlFlagImage('pt')}" alt="" />
       </p>
     `;
 

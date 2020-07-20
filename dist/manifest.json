@@ -6,7 +6,7 @@
 
   "options_page": "options.html",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
-  "web_accessible_resources": ["images/save-icon.svg", "images/list.svg", "images/trash.svg"],
+  "web_accessible_resources": ["images/flags/*.png"],
 
   "permissions": ["activeTab", "storage", "identity", "tabs", "http://*/", "https://*/"],
 
