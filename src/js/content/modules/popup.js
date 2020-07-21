@@ -1,4 +1,4 @@
-import { flags } from '../../libs';
+import { flags, translate } from '../../libs';
 
 const popup = () => {
   const wrapper = document.createElement('DIV');
@@ -15,9 +15,9 @@ const popup = () => {
 
     for (let flag in flags) {
       const listLanguagesItem = document.createElement('LI');
-      listLanguagesItem.innerHTML = `<img src="${chrome.extension.getURL(
-        `images/flags/${flags[flag].image}.png`
-      )}" />`;
+      listLanguagesItem.innerHTML = `<img flag-preffix="${
+        flags[flag].preffix
+      }" src="${chrome.extension.getURL(`images/flags/${flags[flag].image}.png`)}" />`;
 
       listLanguages.appendChild(listLanguagesItem);
     }
@@ -80,17 +80,31 @@ const popup = () => {
     }
   };
 
-  const show = translateData => {
-    const { objectSelection, sourceLanguage, translatedText } = translateData;
-
+  const renderNotifyTranslate = (sourceLanguage, targetLanguage = 'pt') => {
     wrapperNotifyTranslate.innerHTML = `
       <p>
         By: <img src="${getUrlFlagImage(sourceLanguage)}" alt="" />
-        To: <img src="${getUrlFlagImage('pt')}" alt="" />
+        To: <img src="${getUrlFlagImage(targetLanguage)}" alt="" />
       </p>
     `;
 
     wrapperNotifyTranslate.appendChild(buttonOpenListLanguage);
+  };
+
+  const show = translateData => {
+    const { objectSelection, sourceLanguage, translatedText } = translateData;
+
+    renderNotifyTranslate(sourceLanguage);
+
+    Array.from(listLanguages.querySelectorAll('img')).map(itemFlag => {
+      itemFlag.addEventListener('click', async () => {
+        const targetLanguage = itemFlag.getAttribute('flag-preffix');
+        const { translatedText } = await translate(targetLanguage)(text.textContent);
+        text.innerHTML = translatedText;
+
+        renderNotifyTranslate(sourceLanguage, targetLanguage);
+      });
+    });
 
     const rangeT = objectSelection.getRangeAt(0);
     const rectT = rangeT.getBoundingClientRect();
