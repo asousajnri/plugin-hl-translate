@@ -4,8 +4,8 @@ const popup = () => {
   const wrapper = document.createElement('DIV');
   const text = document.createElement('P');
   const arrowDown = document.createElement('SPAN');
+  const buttonOpenListLanguage = document.createElement('IMG');
   const listLanguages = document.createElement('UL');
-
   const wrapperNotifyTranslate = document.createElement('DIV');
 
   const render = () => {
@@ -13,9 +13,29 @@ const popup = () => {
     wrapper.appendChild(wrapperNotifyTranslate);
     wrapper.appendChild(arrowDown);
 
+    for (let flag in flags) {
+      const listLanguagesItem = document.createElement('LI');
+      listLanguagesItem.innerHTML = `<img src="${chrome.extension.getURL(
+        `images/flags/${flags[flag].image}.png`
+      )}" />`;
+
+      listLanguages.appendChild(listLanguagesItem);
+    }
+
+    wrapper.appendChild(listLanguages);
+
     wrapper.setAttribute('class', 'popup-hl');
     arrowDown.setAttribute('class', 'popup-hl__arrow-down');
     wrapperNotifyTranslate.setAttribute('class', 'popup-hl__notify-translate');
+    listLanguages.setAttribute('class', 'popup-hl__list-languages');
+
+    buttonOpenListLanguage.setAttribute('class', 'popup-hl__button-open-language');
+    buttonOpenListLanguage.setAttribute('src', chrome.extension.getURL(`images/chevron-down.svg`));
+
+    buttonOpenListLanguage.addEventListener('click', () => {
+      buttonOpenListLanguage.classList.toggle('is-active');
+      listLanguages.classList.toggle('is-active');
+    });
 
     document.body.appendChild(wrapper);
   };
@@ -23,6 +43,12 @@ const popup = () => {
   const close = () => {
     wrapper.classList.remove('is-active');
     text.innerHTML = '';
+    buttonOpenListLanguage.classList.remove('is-active');
+    listLanguages.classList.remove('is-active');
+  };
+
+  const isElementValid = (elementClicked, elements) => {
+    return elements.filter(element => element === elementClicked).length > 0 ? true : false;
   };
 
   const closeWithMouseEvent = () => {
@@ -30,13 +56,17 @@ const popup = () => {
       e.stopPropagation();
       const elementClicked = e.target;
 
-      elementClicked !== wrapperNotifyTranslate &&
-      elementClicked !== text &&
-      elementClicked !== wrapper &&
-      !elementClicked.classList.contains('popup__button-image')
-        ? close()
-        : null;
+      isElementValid(elementClicked, [
+        wrapper,
+        wrapperNotifyTranslate,
+        buttonOpenListLanguage,
+        listLanguages,
+        ...Array.from(listLanguages.querySelectorAll('img')),
+      ])
+        ? null
+        : close();
     });
+
     document.addEventListener('scroll', e => close());
   };
 
@@ -53,14 +83,14 @@ const popup = () => {
   const show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
 
-    console.log(getUrlFlagImage('en'));
-
     wrapperNotifyTranslate.innerHTML = `
       <p>
         By: <img src="${getUrlFlagImage(sourceLanguage)}" alt="" />
         To: <img src="${getUrlFlagImage('pt')}" alt="" />
       </p>
     `;
+
+    wrapperNotifyTranslate.appendChild(buttonOpenListLanguage);
 
     const rangeT = objectSelection.getRangeAt(0);
     const rectT = rangeT.getBoundingClientRect();

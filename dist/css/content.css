@@ -6,8 +6,6 @@
   min-width: 100px;
   max-width: 500px;
   font-weight: 400;
-  /* background: #c248de; */
-  /* color: #fff; */
   background: #fff;
   color: #000;
   box-shadow: 0 0 2px #00000069;
@@ -76,25 +74,25 @@
   left: calc(50% - 5px);
   -webkit-transform: translateY(50%) rotate(45deg);
   transform: translateY(50%) rotate(45deg);
-  /* background-color: #911fb5; */
-  background: #efefef;
-  z-index: -1;
+  background: #eaeaea;
+  z-index: 2;
 }
 
 .popup-hl__notify-translate {
   display: flex;
   justify-content: center;
-
-  /* background: #911fb5; */
-  background: #efefef;
-
+  flex-direction: column;
+  align-items: center;
+  background: #eaeaea;
   width: 100%;
   padding: 10px 20px;
+  z-index: 2;
 }
 
 .popup-hl__notify-translate p {
   padding: 0;
   font-size: 12px;
+  margin-bottom: 5px !important;
 
   display: flex;
   align-items: center;
@@ -108,6 +106,10 @@
 .popup-hl__notify-translate img {
   width: 20px;
   margin: 0 5px;
+}
+
+.popup-hl__notify-translate .popup-hl__button-open-language {
+  width: 15px;
 }
 
 .popup-hl__button {
@@ -126,4 +128,56 @@
 
 .popup-hl__button:last-of-type {
   margin-right: 0;
+}
+
+.popup-hl__list-languages {
+  list-style: none;
+  padding-left: 0;
+  padding: 15px 20px 10px;
+  background: #d0d0d0;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  top: 100px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  z-index: 1;
+}
+
+.popup-hl__list-languages.is-active {
+  display: flex;
+}
+
+.popup-hl__list-languages li {
+  cursor: pointer;
+  opacity: 0.3;
+  padding: 0 3px 3px;
+}
+
+.popup-hl__list-languages li.is-selected,
+.popup-hl__list-languages li:hover {
+  opacity: 1;
+}
+
+.popup-hl__list-languages img {
+  width: 20px;
+  cursor: pointer;
+}
+
+.popup-hl__button-open-language {
+  cursor: pointer;
+  opacity: 0.3;
+  transition: 0.3s;
+}
+
+.popup-hl__button-open-language.is-active,
+.popup-hl__button-open-language:hover {
+  opacity: 1;
+  transform: rotate(180deg);
 }
