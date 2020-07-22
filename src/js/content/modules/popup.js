@@ -42,41 +42,52 @@ const popup = () => {
     document.body.appendChild(wrapper);
   };
 
-  const renderNotifyTranslate = (sourceLanguage, targetLanguage = 'pt') => {
-    wrapperNotifyTranslate.innerHTML = `
-      <p>
-        By: <img src="${flags.getOneImageFlagUrl(sourceLanguage)}" alt="" />
-        To: <img src="${flags.getOneImageFlagUrl(targetLanguage)}" alt="" />
-      </p>
-    `;
+  const renderNotifyTranslate = sourceLanguage => {
+    chrome.storage.sync.get(['plugin_hl-t'], async response => {
+      const { preffixCountry } = response['plugin_hl-t'];
 
-    wrapperNotifyTranslate.appendChild(buttonOpenListLanguage);
+      wrapperNotifyTranslate.innerHTML = `
+        <p>
+          By: <img src="${flags.getOneImageFlagUrl(sourceLanguage)}" alt="" />
+          To: <img src="${flags.getOneImageFlagUrl(preffixCountry)}" alt="" />
+        </p>
+      `;
+
+      wrapperNotifyTranslate.appendChild(buttonOpenListLanguage);
+    });
   };
 
   const close = () => {
-    wrapper.classList.remove('is-active');
-    text.innerHTML = '';
     buttonOpenListLanguage.classList.remove('is-active');
     listLanguages.classList.remove('is-active');
+    wrapper.classList.remove('is-active');
+    text.innerHTML = '';
+  };
+
+  const handleClickMouse = e => {
+    e.stopPropagation();
+    const elementTarget = e.target;
+
+    operators.isElementValid(elementTarget, [
+      wrapper,
+      wrapperNotifyTranslate,
+      buttonOpenListLanguage,
+      listLanguages,
+      ...Array.from(listLanguages.querySelectorAll('img')),
+    ])
+      ? null
+      : close();
+
+    document.addEventListener('scroll', e => close());
+  };
+
+  const removeCloseWithMouseEvent = () => {
+    document.removeEventListener('click', handleClickMouse);
+    document.removeEventListener('scroll', e => close());
   };
 
   const closeWithMouseEvent = () => {
-    document.addEventListener('click', e => {
-      e.stopPropagation();
-      const elementTarget = e.target;
-
-      operators.isElementValid(elementTarget, [
-        wrapper,
-        wrapperNotifyTranslate,
-        buttonOpenListLanguage,
-        listLanguages,
-        ...Array.from(listLanguages.querySelectorAll('img')),
-      ])
-        ? null
-        : close();
-    });
-
-    document.addEventListener('scroll', e => close());
+    document.addEventListener('click', handleClickMouse);
   };
 
   const remove = () => wrapper.remove();
@@ -89,10 +100,17 @@ const popup = () => {
     Array.from(listLanguages.querySelectorAll('img')).map(itemFlag => {
       itemFlag.addEventListener('click', async () => {
         const targetLanguage = itemFlag.getAttribute('flag-preffix');
+
+        chrome.storage.sync.get(['plugin_hl-t'], response => {
+          chrome.storage.sync.set({
+            'plugin_hl-t': { ...response['plugin_hl-t'], preffixCountry: targetLanguage },
+          });
+        });
+
         const { translatedText } = await translate(targetLanguage)(text.textContent);
         text.innerHTML = translatedText;
 
-        renderNotifyTranslate(sourceLanguage, targetLanguage);
+        renderNotifyTranslate(sourceLanguage);
       });
     });
 
@@ -112,6 +130,7 @@ const popup = () => {
     remove,
     close,
     closeWithMouseEvent,
+    removeCloseWithMouseEvent,
   };
 };
 

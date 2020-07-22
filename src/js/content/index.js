@@ -5,14 +5,16 @@ const { isApprovedTag } = operators;
 
 import popup from './modules/popup';
 
-const start = () => {
-  const handleMouseUp = async e => {
-    const tagMouseuped = e.target;
+const handleMouseUp = e => {
+  const tagMouseuped = e.target;
+
+  chrome.storage.sync.get(['plugin_hl-t'], async response => {
+    const { preffixCountry } = response['plugin_hl-t'];
 
     const { objectSelection, selectedText } = getSelected();
     if (!selectedText || !isApprovedTag(tagMouseuped.tagName).length) return;
 
-    const { sourceLanguage, translatedText } = await translate('pt')(selectedText);
+    const { sourceLanguage, translatedText } = await translate(preffixCountry)(selectedText);
     if (sourceLanguage !== 'en' || objectSelection.anchorNode === null) return;
 
     popup.show({
@@ -21,11 +23,32 @@ const start = () => {
       sourceLanguage,
       translatedText,
     });
-  };
+  });
+};
 
+const start = () => {
   popup.render();
   popup.closeWithMouseEvent();
   document.addEventListener('mouseup', handleMouseUp);
 };
 
-start();
+const onLoadPage = () => {
+  chrome.storage.sync.get(['plugin_hl-t'], async response => {
+    const { enable } = response['plugin_hl-t'];
+
+    if (enable) start();
+  });
+};
+
+window.addEventListener('load', onLoadPage);
+
+chrome.extension.onMessage.addListener(({ enable }, ...args) => {
+  if (enable) {
+    start();
+  } else {
+    popup.remove();
+    popup.removeCloseWithMouseEvent();
+    document.removeEventListener('mouseup', handleMouseUp);
+    window.removeEventListener('load', onLoadPage);
+  }
+});
