@@ -8,12 +8,11 @@ import popup from './modules/popup';
 const start = () => {
   const handleMouseUp = async e => {
     const tagMouseuped = e.target;
-    const translateText = translate('pt');
 
     const { objectSelection, selectedText } = getSelected();
     if (!selectedText || !isApprovedTag(tagMouseuped.tagName).length) return;
 
-    const { sourceLanguage, translatedText } = await translateText(selectedText);
+    const { sourceLanguage, translatedText } = await translate('pt')(selectedText);
     if (sourceLanguage !== 'en' || objectSelection.anchorNode === null) return;
 
     popup.show({

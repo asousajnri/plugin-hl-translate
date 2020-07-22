@@ -1,4 +1,4 @@
-export default {
+export const countriesFlag = {
   italy: {
     preffix: 'it',
     image: '011-italy',
@@ -27,10 +27,6 @@ export default {
     preffix: 'de',
     image: '066-germany',
   },
-  // portugal: {
-  //   preffix: 'pt',
-  //   image: '174-portugal',
-  // },
   south_korea: {
     preffix: 'ko',
     image: '055-south-korea',
@@ -100,3 +96,13 @@ export default {
     image: '071-greece',
   },
 };
+
+export const getOneImageFlagUrl = flagSelected => {
+  for (let flag in countriesFlag) {
+    if (countriesFlag[flag].preffix === flagSelected) {
+      return chrome.extension.getURL(`images/flags/${countriesFlag[flag].image}.png`);
+    }
+  }
+};
+
+export default { getOneImageFlagUrl, countriesFlag };

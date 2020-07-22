@@ -1,4 +1,4 @@
-import { flags, translate } from '../../libs';
+import { flags, translate, operators } from '../../libs';
 
 const popup = () => {
   const wrapper = document.createElement('DIV');
@@ -13,11 +13,13 @@ const popup = () => {
     wrapper.appendChild(wrapperNotifyTranslate);
     wrapper.appendChild(arrowDown);
 
-    for (let flag in flags) {
+    for (let flag in flags.countriesFlag) {
       const listLanguagesItem = document.createElement('LI');
       listLanguagesItem.innerHTML = `<img flag-preffix="${
-        flags[flag].preffix
-      }" src="${chrome.extension.getURL(`images/flags/${flags[flag].image}.png`)}" />`;
+        flags.countriesFlag[flag].preffix
+      }" src="${chrome.extension.getURL(
+        `images/flags/${flags.countriesFlag[flag].image}.png`
+      )}" />`;
 
       listLanguages.appendChild(listLanguagesItem);
     }
@@ -40,6 +42,17 @@ const popup = () => {
     document.body.appendChild(wrapper);
   };
 
+  const renderNotifyTranslate = (sourceLanguage, targetLanguage = 'pt') => {
+    wrapperNotifyTranslate.innerHTML = `
+      <p>
+        By: <img src="${flags.getOneImageFlagUrl(sourceLanguage)}" alt="" />
+        To: <img src="${flags.getOneImageFlagUrl(targetLanguage)}" alt="" />
+      </p>
+    `;
+
+    wrapperNotifyTranslate.appendChild(buttonOpenListLanguage);
+  };
+
   const close = () => {
     wrapper.classList.remove('is-active');
     text.innerHTML = '';
@@ -47,16 +60,12 @@ const popup = () => {
     listLanguages.classList.remove('is-active');
   };
 
-  const isElementValid = (elementClicked, elements) => {
-    return elements.filter(element => element === elementClicked).length > 0 ? true : false;
-  };
-
   const closeWithMouseEvent = () => {
     document.addEventListener('click', e => {
       e.stopPropagation();
-      const elementClicked = e.target;
+      const elementTarget = e.target;
 
-      isElementValid(elementClicked, [
+      operators.isElementValid(elementTarget, [
         wrapper,
         wrapperNotifyTranslate,
         buttonOpenListLanguage,
@@ -70,26 +79,7 @@ const popup = () => {
     document.addEventListener('scroll', e => close());
   };
 
-  const hide = () => wrapper.remove();
-
-  const getUrlFlagImage = flagSelected => {
-    for (let flag in flags) {
-      if (flags[flag].preffix === flagSelected) {
-        return chrome.extension.getURL(`images/flags/${flags[flag].image}.png`);
-      }
-    }
-  };
-
-  const renderNotifyTranslate = (sourceLanguage, targetLanguage = 'pt') => {
-    wrapperNotifyTranslate.innerHTML = `
-      <p>
-        By: <img src="${getUrlFlagImage(sourceLanguage)}" alt="" />
-        To: <img src="${getUrlFlagImage(targetLanguage)}" alt="" />
-      </p>
-    `;
-
-    wrapperNotifyTranslate.appendChild(buttonOpenListLanguage);
-  };
+  const remove = () => wrapper.remove();
 
   const show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
@@ -119,9 +109,9 @@ const popup = () => {
   return {
     render,
     show,
-    hide,
-    closeWithMouseEvent,
+    remove,
     close,
+    closeWithMouseEvent,
   };
 };
 

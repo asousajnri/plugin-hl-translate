@@ -37,4 +37,7 @@ export default {
   filter(data, word) {
     return data.filter(value => value.word !== word);
   },
+  isElementValid(elementTarget, elements) {
+    return elements.filter(element => element === elementTarget).length > 0 ? true : false;
+  },
 };

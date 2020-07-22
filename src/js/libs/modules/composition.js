@@ -1,5 +1,3 @@
 const composition = (...functions) => valor => {
-  return functions.reduce((acc, fn) => fn(acc), valor);
+  return functions.reduce((accumulatorValue, fn) => fn(accumulatorValue), valor);
 };
-
-export default composition;
