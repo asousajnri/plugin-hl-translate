@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
+    background: './src/js/background/index.js',
     content: './src/js/content/index.js',
     options: './src/js/options/index.js',
     popup: './src/js/popup/index.js',
