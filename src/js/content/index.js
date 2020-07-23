@@ -32,16 +32,6 @@ const start = () => {
   document.addEventListener('mouseup', handleMouseUp);
 };
 
-const onLoadPage = () => {
-  chrome.storage.sync.get(['plugin_hl-t'], async response => {
-    const { enable } = response['plugin_hl-t'];
-
-    if (enable) start();
-  });
-};
-
-window.addEventListener('load', onLoadPage);
-
 chrome.extension.onMessage.addListener(({ enable }, ...args) => {
   if (enable) {
     start();

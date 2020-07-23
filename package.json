@@ -5,9 +5,7 @@
   "author": "Antônio Sousa",
   "license": "MIT",
   "scripts": {
-    "server:dev": "nodemon src/server/index.js",
-    "plugin:dev": "webpack --config webpack.config.js --watch --mode=development",
-    "start": "npm-run-all server:dev plugin:dev"
+    "dev": "webpack --config webpack.config.js --watch --mode=development"
   },
   "dependencies": {
     "axios": "^0.19.2",
