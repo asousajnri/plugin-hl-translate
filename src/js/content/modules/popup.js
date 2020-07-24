@@ -64,6 +64,8 @@ const popup = () => {
     text.innerHTML = '';
   };
 
+  const remove = () => wrapper.remove();
+
   const handleClickMouse = e => {
     e.stopPropagation();
     const elementTarget = e.target;
@@ -89,8 +91,6 @@ const popup = () => {
   const closeWithMouseEvent = () => {
     document.addEventListener('click', handleClickMouse);
   };
-
-  const remove = () => wrapper.remove();
 
   const show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;

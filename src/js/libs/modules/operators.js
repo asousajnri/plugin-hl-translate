@@ -40,4 +40,14 @@ export default {
   isElementValid(elementTarget, elements) {
     return elements.filter(element => element === elementTarget).length > 0 ? true : false;
   },
+  isSelectedFlag(flags, flagToSelected) {
+    flags.map(flag => {
+      if (flag.flagItemHTML === flagToSelected) {
+        flag.flagItemHTML.classList.add('is-selected');
+        return true;
+      } else {
+        flag.flagItemHTML.classList.remove('is-selected');
+      }
+    });
+  },
 };

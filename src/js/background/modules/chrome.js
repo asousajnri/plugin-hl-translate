@@ -1,11 +1,6 @@
 export default {
   browserActionSetIcon(state, tabId) {
-    let path = '';
-    if (state === 'on') {
-      path = chrome.extension.getURL('icons/16-on.png');
-    } else {
-      path = chrome.extension.getURL('icons/16.png');
-    }
+    const path = chrome.extension.getURL(`icons/16${state ? '-on' : ''}.png`);
     chrome.browserAction.setIcon({
       path,
       tabId,
