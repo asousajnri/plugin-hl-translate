@@ -64,7 +64,10 @@ const popup = () => {
     text.innerHTML = '';
   };
 
-  const remove = () => wrapper.remove();
+  const remove = () => {
+    listLanguages.remove();
+    wrapper.remove();
+  };
 
   const handleClickMouse = e => {
     e.stopPropagation();

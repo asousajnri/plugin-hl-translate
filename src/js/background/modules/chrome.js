@@ -1,6 +1,6 @@
 export default {
-  browserActionSetIcon(state, tabId) {
-    const path = chrome.extension.getURL(`icons/16${state ? '-on' : ''}.png`);
+  browserActionSetIcon(statePlugin, tabId) {
+    const path = chrome.extension.getURL(`icons/16${statePlugin ? '-on' : ''}.png`);
     chrome.browserAction.setIcon({
       path,
       tabId,
@@ -21,9 +21,13 @@ export default {
       }
     });
   },
-  sendMessageIsEnablePlugin(enable) {
+  sendMessageIsEnablePlugin(renderHTMLPopupOnPage) {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      chrome.tabs.sendMessage(tabs[0].id, { enable });
+      chrome.tabs.sendMessage(tabs[0].id, { renderHTMLPopupOnPage });
     });
+  },
+  pluginIsActive(statePlugin, tabId) {
+    this.browserActionSetIcon(statePlugin, tabId);
+    this.sendMessageIsEnablePlugin(statePlugin);
   },
 };

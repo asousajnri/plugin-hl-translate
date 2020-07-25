@@ -32,13 +32,12 @@ const start = () => {
   document.addEventListener('mouseup', handleMouseUp);
 };
 
-chrome.extension.onMessage.addListener(({ enable }, ...args) => {
-  if (enable) {
+chrome.extension.onMessage.addListener(({ renderHTMLPopupOnPage }, ...args) => {
+  if (renderHTMLPopupOnPage) {
     start();
   } else {
     popup.remove();
     popup.removeCloseWithMouseEvent();
     document.removeEventListener('mouseup', handleMouseUp);
-    window.removeEventListener('load', onLoadPage);
   }
 });
