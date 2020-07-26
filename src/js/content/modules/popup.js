@@ -65,7 +65,6 @@ const popup = () => {
   };
 
   const remove = () => {
-    listLanguages.remove();
     wrapper.remove();
   };
 

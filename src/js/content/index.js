@@ -32,8 +32,8 @@ const start = () => {
   document.addEventListener('mouseup', handleMouseUp);
 };
 
-chrome.extension.onMessage.addListener(({ renderHTMLPopupOnPage }, ...args) => {
-  if (renderHTMLPopupOnPage) {
+chrome.runtime.onMessage.addListener(({ isEnablePlugin }) => {
+  if (isEnablePlugin) {
     start();
   } else {
     popup.remove();

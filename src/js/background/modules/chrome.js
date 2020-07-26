@@ -6,28 +6,11 @@ export default {
       tabId,
     });
   },
-  browserActionSetIconOnLoadPage() {
-    chrome.storage.sync.get(['plugin_hl-t'], response => {
-      const { enable, preffixCountry } = response['plugin_hl-t'];
-
-      if (enable) {
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs =>
-          this.browserActionSetIcon('on', tabs[0].id)
-        );
-      } else {
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs =>
-          this.browserActionSetIcon('off', tabs[0].id)
-        );
-      }
-    });
-  },
-  sendMessageIsEnablePlugin(renderHTMLPopupOnPage) {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      chrome.tabs.sendMessage(tabs[0].id, { renderHTMLPopupOnPage });
-    });
+  sendMessageIsEnablePlugin(tabId, isEnablePlugin) {
+    chrome.tabs.sendMessage(tabId, { isEnablePlugin });
   },
   pluginIsActive(statePlugin, tabId) {
     this.browserActionSetIcon(statePlugin, tabId);
-    this.sendMessageIsEnablePlugin(statePlugin);
+    this.sendMessageIsEnablePlugin(tabId, statePlugin);
   },
 };
