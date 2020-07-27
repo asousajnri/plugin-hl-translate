@@ -17,7 +17,7 @@ const handleMouseUp = e => {
     const { sourceLanguage, translatedText } = await translate(preffixCountry)(selectedText);
     if (sourceLanguage !== 'en' || objectSelection.anchorNode === null) return;
 
-    popup.show({
+    popup.DOMPopupShow({
       objectSelection,
       selectedText,
       sourceLanguage,
@@ -27,8 +27,8 @@ const handleMouseUp = e => {
 };
 
 const start = () => {
-  popup.render();
-  popup.closeWithMouseEvent();
+  popup.DOMPopupRender();
+  popup.hideIfClickMousePopupOut();
   document.addEventListener('mouseup', handleMouseUp);
 };
 
@@ -36,8 +36,8 @@ chrome.runtime.onMessage.addListener(({ isEnablePlugin }) => {
   if (isEnablePlugin) {
     start();
   } else {
-    popup.remove();
-    popup.removeCloseWithMouseEvent();
+    popup.DOMPopupRemove();
+    popup.removeEventHideIfClickMousePopupOut();
     document.removeEventListener('mouseup', handleMouseUp);
   }
 });

@@ -80,7 +80,7 @@ export const countriesFlag = {
     image: '113-bosnia-and-herzegovina',
   },
   bulgaria: {
-    preffix: 'bs',
+    preffix: 'bg',
     image: '135-bulgaria',
   },
   filandia: {
@@ -105,4 +105,16 @@ export const getOneImageFlagUrl = flagSelected => {
   }
 };
 
-export default { getOneImageFlagUrl, countriesFlag };
+export const flagIsActive = (flagsListingItems, flagActive) => {
+  flagsListingItems.map(item => {
+    const itemPreffixFlag = item.getAttribute('flag-preffix');
+
+    if (itemPreffixFlag === flagActive) {
+      item.classList.add('is-selected');
+    } else {
+      item.classList.remove('is-selected');
+    }
+  });
+};
+
+export default { getOneImageFlagUrl, flagIsActive, countriesFlag };
