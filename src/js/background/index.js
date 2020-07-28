@@ -53,6 +53,18 @@ const pluginIsActiveOnStartPage = tabId => {
   });
 };
 
+const firedActiveTabOnClick = tab => {
+  if (tab.tabId === id) {
+    if (tab.pluginIsActive) {
+      chromeMethods.pluginIsActive(false, tab.tabId);
+      updateTabPluginIsActive(states, tab.tabId, false);
+    } else {
+      chromeMethods.pluginIsActive(true, tab.tabId);
+      updateTabPluginIsActive(states, tab.tabId, true);
+    }
+  }
+};
+
 chrome.tabs.onUpdated.addListener((tabIdOnUpdated, info) => {
   if (info.status === 'complete') {
     pluginIsActiveOnStartPage(tabIdOnUpdated);
@@ -80,18 +92,6 @@ chrome.browserAction.onClicked.addListener(({ id }) => {
       chromeMethods.pluginIsActive(true, id);
     }
 
-    tabsPluginIsActive.map(tab => {
-      if (tab.tabId === id) {
-        if (tab.pluginIsActive) {
-          console.log('Plugin is False!');
-          chromeMethods.pluginIsActive(false, tab.tabId);
-          updateTabPluginIsActive(states, tab.tabId, false);
-        } else {
-          console.log('Plugin is true!');
-          chromeMethods.pluginIsActive(true, tab.tabId);
-          updateTabPluginIsActive(states, tab.tabId, true);
-        }
-      }
-    });
+    tabsPluginIsActive.map(firedActiveTabOnClick);
   });
 });
