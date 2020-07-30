@@ -1,4 +1,13 @@
 export default {
+  createElement({ type, className }) {
+    const newElement = document.createElement(type);
+
+    if (className) {
+      newElement.classList.add(className);
+    }
+
+    return newElement;
+  },
   isApprovedTag(tagTarget) {
     const tagsFiltered = [
       'p',

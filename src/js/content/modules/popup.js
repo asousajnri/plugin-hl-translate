@@ -1,28 +1,39 @@
 import { flags, translate, operators } from '../../libs';
 
+const { createElement } = operators;
+
 const popup = () => {
-  const DOM_POPUP = document.createElement('DIV');
-  const DOM_POPUP_TEXT_SET_TRANSLATION = document.createElement('P');
-  const DOM_POPUP_DETAIL = document.createElement('SPAN');
-  const DOM_POPUP_OPEN_FLAGS_ARROW = document.createElement('IMG');
-  const DOM_POPUP_FLAGS_LISTING = document.createElement('UL');
-  const DOM_POPUP_BY_TO_TRANSLATION = document.createElement('DIV');
+  const DOM_POPUP = createElement({ type: 'div', className: 'popup-hlt' });
+  const DOM_POPUP_TEXT_SET_TRANSLATION = createElement({ type: 'p' });
+  const DOM_POPUP_DETAIL = createElement({ type: 'span', className: 'popup-hlt__after-arrow' });
+  const DOM_POPUP_OPEN_FLAGS_ARROW = createElement({
+    type: 'img',
+    className: 'popup-hlt__open-flags-arrow',
+  });
+  const DOM_POPUP_FLAGS_LISTING = createElement({
+    type: 'ul',
+    className: 'popup-hlt__flags-listing',
+  });
+  const DOM_POPUP_BY_TO_TRANSLATION = createElement({
+    type: 'div',
+    className: 'popup-hlt__to-by-translation',
+  });
 
   const _render = () => {
     DOM_POPUP.appendChild(DOM_POPUP_TEXT_SET_TRANSLATION);
     DOM_POPUP.appendChild(DOM_POPUP_BY_TO_TRANSLATION);
     DOM_POPUP.appendChild(DOM_POPUP_DETAIL);
+    DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
 
     for (let flag in flags.countriesFlag) {
       const flagPreffix = flags.countriesFlag[flag].preffix;
       const flagUrlFlagImage = flags.countriesFlag[flag].image;
+      const DOM_POPUP_FLAGS_LISTING_ITEM = createElement({ type: 'li' });
 
-      const DOM_POPUP_FLAGS_LISTING_ITEM = document.createElement('LI');
+      DOM_POPUP_FLAGS_LISTING_ITEM.setAttribute('flag-preffix', flagPreffix);
       DOM_POPUP_FLAGS_LISTING_ITEM.innerHTML = `<img flag-preffix="${flagPreffix}" src="${chrome.extension.getURL(
         `images/flags/${flagUrlFlagImage}.png`
       )}" />`;
-
-      DOM_POPUP_FLAGS_LISTING_ITEM.setAttribute('flag-preffix', flagPreffix);
 
       chrome.storage.sync.get(['plugin_hl-t'], response => {
         const { preffixCountry } = response['plugin_hl-t'];
@@ -35,14 +46,6 @@ const popup = () => {
       DOM_POPUP_FLAGS_LISTING.appendChild(DOM_POPUP_FLAGS_LISTING_ITEM);
     }
 
-    DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
-
-    DOM_POPUP.setAttribute('class', 'popup-hlt');
-    DOM_POPUP_DETAIL.setAttribute('class', 'popup-hlt__after-arrow');
-    DOM_POPUP_BY_TO_TRANSLATION.setAttribute('class', 'popup-hlt__to-by-translation');
-    DOM_POPUP_FLAGS_LISTING.setAttribute('class', 'popup-hlt__flags-listing');
-
-    DOM_POPUP_OPEN_FLAGS_ARROW.setAttribute('class', 'popup-hlt__open-flags-arrow');
     DOM_POPUP_OPEN_FLAGS_ARROW.setAttribute(
       'src',
       chrome.extension.getURL(`images/chevron-down.svg`)

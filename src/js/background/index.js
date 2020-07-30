@@ -53,7 +53,7 @@ const pluginIsActiveOnStartPage = tabId => {
   });
 };
 
-const firedActiveTabOnClick = tab => {
+const firedActiveTabOnClick = (states, tab, id) => {
   if (tab.tabId === id) {
     if (tab.pluginIsActive) {
       chromeMethods.pluginIsActive(false, tab.tabId);
@@ -92,6 +92,6 @@ chrome.browserAction.onClicked.addListener(({ id }) => {
       chromeMethods.pluginIsActive(true, id);
     }
 
-    tabsPluginIsActive.map(firedActiveTabOnClick);
+    tabsPluginIsActive.map(tab => firedActiveTabOnClick(states, tab, id));
   });
 });

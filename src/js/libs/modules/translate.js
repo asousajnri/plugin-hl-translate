@@ -15,8 +15,10 @@ const translate = target => async word => {
   const { data } = await response.json();
 
   return {
-    sourceLanguage: data.translations[0].detectedSourceLanguage,
-    translatedText: data.translations[0].translatedText,
+    // sourceLanguage: data.translations[0].detectedSourceLanguage,
+    // translatedText: data.translations[0].translatedText,
+    sourceLanguage: 'en',
+    translatedText: 'God!!!',
   };
 };
 
