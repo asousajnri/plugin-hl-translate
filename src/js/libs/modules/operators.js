@@ -1,6 +1,6 @@
 export default {
   isApprovedTag(tagTarget) {
-    return [
+    const tagsFiltered = [
       'p',
       'h1',
       'h2',
@@ -16,13 +16,20 @@ export default {
       'small',
       'div',
     ].filter(tag => tagTarget.toUpperCase() === tag.toUpperCase());
+
+    if (tagsFiltered.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   },
   find(data, word) {
     if (data.length === 0 || data === undefined) return null;
 
     const query = data.filter(value => value.word === word);
+
     if (query.length !== 0) {
-      return query;
+      return query[0].word;
     } else {
       return null;
     }
