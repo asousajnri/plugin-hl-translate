@@ -19,12 +19,7 @@ const popup = () => {
     className: 'popup-hlt__to-by-translation',
   });
 
-  const _render = () => {
-    DOM_POPUP.appendChild(DOM_POPUP_TEXT_SET_TRANSLATION);
-    DOM_POPUP.appendChild(DOM_POPUP_BY_TO_TRANSLATION);
-    DOM_POPUP.appendChild(DOM_POPUP_DETAIL);
-    DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
-
+  const renderFlagsListing = () => {
     for (let flag in flags.countriesFlag) {
       const flagPreffix = flags.countriesFlag[flag].preffix;
       const flagUrlFlagImage = flags.countriesFlag[flag].image;
@@ -45,11 +40,20 @@ const popup = () => {
 
       DOM_POPUP_FLAGS_LISTING.appendChild(DOM_POPUP_FLAGS_LISTING_ITEM);
     }
+  };
+
+  const _render = () => {
+    DOM_POPUP.appendChild(DOM_POPUP_TEXT_SET_TRANSLATION);
+    DOM_POPUP.appendChild(DOM_POPUP_BY_TO_TRANSLATION);
+    DOM_POPUP.appendChild(DOM_POPUP_DETAIL);
 
     DOM_POPUP_OPEN_FLAGS_ARROW.setAttribute(
       'src',
       chrome.extension.getURL(`images/chevron-down.svg`)
     );
+
+    renderFlagsListing();
+    DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
 
     DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () => {
       DOM_POPUP_OPEN_FLAGS_ARROW.classList.toggle('is-active');
