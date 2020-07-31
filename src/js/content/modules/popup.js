@@ -19,7 +19,16 @@ const popup = () => {
     className: 'popup-hlt__to-by-translation',
   });
 
+  const resetFlagsListing = () => {
+    const liItems = Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('li'));
+    if (liItems.length > 0) {
+      liItems.map(liItem => liItem.remove());
+    }
+  };
+
   const renderFlagsListing = () => {
+    resetFlagsListing();
+
     for (let flag in flags.countriesFlag) {
       const flagPreffix = flags.countriesFlag[flag].preffix;
       const flagUrlFlagImage = flags.countriesFlag[flag].image;
@@ -42,6 +51,13 @@ const popup = () => {
     }
   };
 
+  const _handleClickOpenFlags = () => {
+    console.log('DOM_POPUP_OPEN_FLAGS_ARROW');
+
+    DOM_POPUP_OPEN_FLAGS_ARROW.classList.toggle('is-active');
+    DOM_POPUP_FLAGS_LISTING.classList.toggle('is-active');
+  };
+
   const _render = () => {
     DOM_POPUP.appendChild(DOM_POPUP_TEXT_SET_TRANSLATION);
     DOM_POPUP.appendChild(DOM_POPUP_BY_TO_TRANSLATION);
@@ -55,10 +71,7 @@ const popup = () => {
     renderFlagsListing();
     DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
 
-    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () => {
-      DOM_POPUP_OPEN_FLAGS_ARROW.classList.toggle('is-active');
-      DOM_POPUP_FLAGS_LISTING.classList.toggle('is-active');
-    });
+    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', _handleClickOpenFlags);
 
     document.body.appendChild(DOM_POPUP);
   };
@@ -85,7 +98,10 @@ const popup = () => {
     DOM_POPUP_TEXT_SET_TRANSLATION.innerHTML = '';
   };
 
-  const _remove = () => DOM_POPUP.remove();
+  const _remove = () => {
+    DOM_POPUP_FLAGS_LISTING.remove();
+    DOM_POPUP.remove();
+  };
 
   const _hideIfClickMousePopupOut = () =>
     document.addEventListener('click', e => {
@@ -154,10 +170,16 @@ const popup = () => {
     DOM_POPUP.style.left = `${rectT.x + rectT.width / 2 - DOM_POPUP.clientWidth / 2}px`;
   };
 
+  const _destroyAllEvents = () => {
+    document.removeEventListener('click', _removeEventHideIfClickMousePopupOut);
+    DOM_POPUP_OPEN_FLAGS_ARROW.removeEventListener('click', _handleClickOpenFlags);
+  };
+
   return {
     DOMPopupRender: _render,
     DOMPopupShow: _show,
     DOMPopupRemove: _remove,
+    destroyAllEvents: _destroyAllEvents,
     hideIfClickMousePopupOut: _hideIfClickMousePopupOut,
     removeEventHideIfClickMousePopupOut: _removeEventHideIfClickMousePopupOut,
   };
