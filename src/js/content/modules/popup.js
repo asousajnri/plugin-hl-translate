@@ -1,23 +1,25 @@
-import { flags, translate, operators } from '../../libs';
+import { flags, translate, isElementValid, createElement } from '../../core';
 
-const { createElement } = operators;
+import html from './createHtml';
+import { handleOpenFlags, handlePopupClose } from './events';
 
 const popup = () => {
-  const DOM_POPUP = createElement({ type: 'div', className: 'popup-hlt' });
-  const DOM_POPUP_TEXT_SET_TRANSLATION = createElement({ type: 'p' });
-  const DOM_POPUP_DETAIL = createElement({ type: 'span', className: 'popup-hlt__after-arrow' });
-  const DOM_POPUP_OPEN_FLAGS_ARROW = createElement({
-    type: 'img',
-    className: 'popup-hlt__open-flags-arrow',
-  });
-  const DOM_POPUP_FLAGS_LISTING = createElement({
-    type: 'ul',
-    className: 'popup-hlt__flags-listing',
-  });
-  const DOM_POPUP_BY_TO_TRANSLATION = createElement({
-    type: 'div',
-    className: 'popup-hlt__to-by-translation',
-  });
+  const {
+    DOM_POPUP,
+    DOM_POPUP_TEXT_SET_TRANSLATION,
+    DOM_POPUP_DETAIL,
+    DOM_POPUP_OPEN_FLAGS_ARROW,
+    DOM_POPUP_FLAGS_LISTING,
+    DOM_POPUP_BY_TO_TRANSLATION,
+  } = html();
+
+  const ELEMENTS_CLICKED_DO_NOT_CLOSE_POPUP = [
+    DOM_POPUP,
+    DOM_POPUP_BY_TO_TRANSLATION,
+    DOM_POPUP_OPEN_FLAGS_ARROW,
+    DOM_POPUP_FLAGS_LISTING,
+    ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
+  ];
 
   const resetFlagsListing = () => {
     const liItems = Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('li'));
@@ -29,9 +31,9 @@ const popup = () => {
   const renderFlagsListing = () => {
     resetFlagsListing();
 
-    for (let flag in flags.countriesFlag) {
-      const flagPreffix = flags.countriesFlag[flag].preffix;
-      const flagUrlFlagImage = flags.countriesFlag[flag].image;
+    for (let flag in flags) {
+      const flagPreffix = flags[flag].preffix;
+      const flagUrlFlagImage = flags[flag].image;
       const DOM_POPUP_FLAGS_LISTING_ITEM = createElement({ type: 'li' });
 
       DOM_POPUP_FLAGS_LISTING_ITEM.setAttribute('flag-preffix', flagPreffix);
@@ -51,13 +53,6 @@ const popup = () => {
     }
   };
 
-  const _handleClickOpenFlags = () => {
-    console.log('DOM_POPUP_OPEN_FLAGS_ARROW');
-
-    DOM_POPUP_OPEN_FLAGS_ARROW.classList.toggle('is-active');
-    DOM_POPUP_FLAGS_LISTING.classList.toggle('is-active');
-  };
-
   const _render = () => {
     DOM_POPUP.appendChild(DOM_POPUP_TEXT_SET_TRANSLATION);
     DOM_POPUP.appendChild(DOM_POPUP_BY_TO_TRANSLATION);
@@ -71,9 +66,16 @@ const popup = () => {
     renderFlagsListing();
     DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
 
-    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', _handleClickOpenFlags);
+    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () =>
+      handleOpenFlags({
+        buttonClicked: DOM_POPUP_OPEN_FLAGS_ARROW,
+        flagsListing: DOM_POPUP_FLAGS_LISTING,
+      })
+    );
 
     document.body.appendChild(DOM_POPUP);
+
+    handlePopupClose(ELEMENTS_CLICKED_DO_NOT_CLOSE_POPUP);
   };
 
   const _renderToByTranslation = sourceLanguage => {
@@ -82,8 +84,8 @@ const popup = () => {
 
       DOM_POPUP_BY_TO_TRANSLATION.innerHTML = `
         <p>
-          By: <img src="${flags.getOneImageFlagUrl(sourceLanguage)}" alt="" />
-          To: <img src="${flags.getOneImageFlagUrl(preffixCountry)}" alt="" />
+          By: <img src="${flags.flagGetImageUrl(sourceLanguage)}" alt="" />
+          To: <img src="${flags.flagGetImageUrl(preffixCountry)}" alt="" />
         </p>
       `;
 
@@ -103,28 +105,10 @@ const popup = () => {
     DOM_POPUP.remove();
   };
 
-  const _hideIfClickMousePopupOut = () =>
-    document.addEventListener('click', e => {
-      e.stopPropagation();
-      const elementTarget = e.target;
-
-      operators.isElementValid(elementTarget, [
-        DOM_POPUP,
-        DOM_POPUP_BY_TO_TRANSLATION,
-        DOM_POPUP_OPEN_FLAGS_ARROW,
-        DOM_POPUP_FLAGS_LISTING,
-        ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
-      ])
-        ? null
-        : _hide();
-
-      document.addEventListener('scroll', e => _hide());
-    });
-
-  const _removeEventHideIfClickMousePopupOut = () => {
-    document.removeEventListener('click', _hideIfClickMousePopupOut());
-    document.removeEventListener('scroll', e => _hide());
-  };
+  // const _removeEventHideIfClickMousePopupOut = () => {
+  //   document.removeEventListener('click', _hideIfClickMousePopupOut());
+  //   document.removeEventListener('scroll', e => _hide());
+  // };
 
   const _show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
@@ -180,8 +164,6 @@ const popup = () => {
     DOMPopupShow: _show,
     DOMPopupRemove: _remove,
     destroyAllEvents: _destroyAllEvents,
-    hideIfClickMousePopupOut: _hideIfClickMousePopupOut,
-    removeEventHideIfClickMousePopupOut: _removeEventHideIfClickMousePopupOut,
   };
 };
 

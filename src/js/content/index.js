@@ -1,7 +1,6 @@
 import 'regenerator-runtime/runtime';
 
-import { operators, translate, getSelected } from '../libs/index';
-const { isApprovedTag } = operators;
+import { isApprovedTag, translate, getSelected } from '../core';
 
 import popup from './modules/popup';
 
