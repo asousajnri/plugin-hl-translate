@@ -1,7 +1,7 @@
 import { flags, translate, createElement, flagIsActive, flagGetImageUrl } from '../../core';
 
 import html from './createHtml';
-import { handleFlagsOpen, handlePopupClose } from './events';
+import { handleFlagsOpen, handlePopupClose, destroyPopupHtml, destroyEvent } from './events';
 
 const popup = () => {
   const {
@@ -20,6 +20,19 @@ const popup = () => {
     DOM_POPUP_FLAGS_LISTING,
     ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
   ];
+
+  const destroyAllEvents = destroyEvent([
+    {
+      nodeElement: document,
+      eventType: 'click',
+      eventFunction: handlePopupClose,
+    },
+    {
+      nodeElement: DOM_POPUP_OPEN_FLAGS_ARROW,
+      eventType: 'click',
+      eventFunction: handleFlagsOpen,
+    },
+  ]);
 
   const resetFlagsListing = () => {
     const liItems = Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('li'));
@@ -53,7 +66,7 @@ const popup = () => {
     }
   };
 
-  const _render = () => {
+  const DOMPopupRender = () => {
     DOM_POPUP.appendChild(DOM_POPUP_TEXT_SET_TRANSLATION);
     DOM_POPUP.appendChild(DOM_POPUP_BY_TO_TRANSLATION);
     DOM_POPUP.appendChild(DOM_POPUP_DETAIL);
@@ -74,8 +87,6 @@ const popup = () => {
     );
 
     document.body.appendChild(DOM_POPUP);
-
-    handlePopupClose(ELEMENTS_CLICKED_DO_NOT_CLOSE_POPUP);
   };
 
   const _renderToByTranslation = sourceLanguage => {
@@ -93,7 +104,7 @@ const popup = () => {
     });
   };
 
-  const _show = translateData => {
+  const DOMPopupShow = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
 
     _renderToByTranslation(sourceLanguage);
@@ -125,6 +136,8 @@ const popup = () => {
 
         _renderToByTranslation(sourceLanguage);
       });
+
+      handlePopupClose(ELEMENTS_CLICKED_DO_NOT_CLOSE_POPUP);
     });
 
     const rangeT = objectSelection.getRangeAt(0);
@@ -138,8 +151,9 @@ const popup = () => {
   };
 
   return {
-    DOMPopupRender: _render,
-    DOMPopupShow: _show,
+    DOMPopupRender,
+    DOMPopupShow,
+    DOMPopupDestroy: () => destroyAllEvents(DOM_POPUP, destroyAllEvents),
   };
 };
 

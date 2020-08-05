@@ -14,12 +14,12 @@ export const handlePopupClose = elements => {
     e.stopPropagation();
     const elementTarget = e.target;
 
-    isElementValid(elementTarget, elements) ? null : hide();
-    document.addEventListener('scroll', e => hide());
+    isElementValid(elementTarget, elements) ? null : hide(elements);
+    document.addEventListener('scroll', e => hide(elements));
   });
 };
 
-export const destroyAllEvents = nodesToRemoveEvents => () => {
+export const destroyEvent = nodesToRemoveEvents => () => {
   if (elementsToRemoveEvent) {
     elementsToRemoveEvent.map(element => {
       const nodeElement = element.nodeElement;
@@ -31,6 +31,7 @@ export const destroyAllEvents = nodesToRemoveEvents => () => {
   }
 };
 
-export const destroyPopupHtml = popupElement => {
+export const destroyPopupHtml = (popupElement, destroyAllEvents) => {
   popupElement.remove();
+  destroyEvents();
 };

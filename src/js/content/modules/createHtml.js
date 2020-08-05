@@ -26,3 +26,5 @@ const createHtml = () => {
     DOM_POPUP_BY_TO_TRANSLATION,
   };
 };
+
+export default createHtml;
