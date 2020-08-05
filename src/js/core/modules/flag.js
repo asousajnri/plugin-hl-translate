@@ -98,9 +98,9 @@ export const flags = {
 };
 
 export const flagGetImageUrl = flagSelected => {
-  for (let flag in countriesFlag) {
-    if (countriesFlag[flag].preffix === flagSelected) {
-      return chrome.extension.getURL(`images/flags/${countriesFlag[flag].image}.png`);
+  for (let flag in flags) {
+    if (flags[flag].preffix === flagSelected) {
+      return chrome.extension.getURL(`images/flags/${flags[flag].image}.png`);
     }
   }
 };

@@ -153,7 +153,7 @@ const popup = () => {
   return {
     DOMPopupRender,
     DOMPopupShow,
-    DOMPopupDestroy: () => destroyAllEvents(DOM_POPUP, destroyAllEvents),
+    DOMPopupDestroy: () => destroyPopupHtml(DOM_POPUP, destroyAllEvents),
   };
 };
 
