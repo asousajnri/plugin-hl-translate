@@ -1,7 +1,7 @@
-import { flags, translate, isElementValid, createElement } from '../../core';
+import { flags, translate, createElement, flagIsActive, flagGetImageUrl } from '../../core';
 
 import html from './createHtml';
-import { handleOpenFlags, handlePopupClose } from './events';
+import { handleFlagsOpen, handlePopupClose } from './events';
 
 const popup = () => {
   const {
@@ -67,7 +67,7 @@ const popup = () => {
     DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
 
     DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () =>
-      handleOpenFlags({
+      handleFlagsOpen({
         buttonClicked: DOM_POPUP_OPEN_FLAGS_ARROW,
         flagsListing: DOM_POPUP_FLAGS_LISTING,
       })
@@ -84,31 +84,14 @@ const popup = () => {
 
       DOM_POPUP_BY_TO_TRANSLATION.innerHTML = `
         <p>
-          By: <img src="${flags.flagGetImageUrl(sourceLanguage)}" alt="" />
-          To: <img src="${flags.flagGetImageUrl(preffixCountry)}" alt="" />
+          By: <img src="${flagGetImageUrl(sourceLanguage)}" alt="" />
+          To: <img src="${flagGetImageUrl(preffixCountry)}" alt="" />
         </p>
       `;
 
       DOM_POPUP_BY_TO_TRANSLATION.appendChild(DOM_POPUP_OPEN_FLAGS_ARROW);
     });
   };
-
-  const _hide = () => {
-    DOM_POPUP_OPEN_FLAGS_ARROW.classList.remove('is-active');
-    DOM_POPUP_FLAGS_LISTING.classList.remove('is-active');
-    DOM_POPUP.classList.remove('is-active');
-    DOM_POPUP_TEXT_SET_TRANSLATION.innerHTML = '';
-  };
-
-  const _remove = () => {
-    DOM_POPUP_FLAGS_LISTING.remove();
-    DOM_POPUP.remove();
-  };
-
-  // const _removeEventHideIfClickMousePopupOut = () => {
-  //   document.removeEventListener('click', _hideIfClickMousePopupOut());
-  //   document.removeEventListener('scroll', e => _hide());
-  // };
 
   const _show = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
@@ -127,7 +110,7 @@ const popup = () => {
       itemFlag.addEventListener('click', async () => {
         const targetLanguage = itemFlag.getAttribute('flag-preffix');
 
-        flags.flagIsActive(DOM_POPUP_FLAGS_LISTING_ITEMS, targetLanguage);
+        flagIsActive(DOM_POPUP_FLAGS_LISTING_ITEMS, targetLanguage);
 
         chrome.storage.sync.get(['plugin_hl-t'], response => {
           chrome.storage.sync.set({
@@ -154,16 +137,9 @@ const popup = () => {
     DOM_POPUP.style.left = `${rectT.x + rectT.width / 2 - DOM_POPUP.clientWidth / 2}px`;
   };
 
-  const _destroyAllEvents = () => {
-    document.removeEventListener('click', _removeEventHideIfClickMousePopupOut);
-    DOM_POPUP_OPEN_FLAGS_ARROW.removeEventListener('click', _handleClickOpenFlags);
-  };
-
   return {
     DOMPopupRender: _render,
     DOMPopupShow: _show,
-    DOMPopupRemove: _remove,
-    destroyAllEvents: _destroyAllEvents,
   };
 };
 

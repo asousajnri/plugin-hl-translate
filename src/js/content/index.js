@@ -27,13 +27,11 @@ const handleMouseUp = e => {
 
 const start = () => {
   popup.DOMPopupRender();
-  popup.hideIfClickMousePopupOut();
   document.addEventListener('mouseup', handleMouseUp);
 };
 
 const destroy = () => {
   popup.DOMPopupRemove();
-  popup.destroyAllEvents();
   document.removeEventListener('mouseup', handleMouseUp);
 };
 
