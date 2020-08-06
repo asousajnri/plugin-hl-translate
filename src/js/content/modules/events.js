@@ -7,42 +7,29 @@ export const hide = elementsToHide => {
 export const handleFlagsOpen = ({ buttonClicked, flagsListing }) => {
   buttonClicked.classList.toggle('is-active');
   flagsListing.classList.toggle('is-active');
-
-  // if (
-  //   buttonClicked.classList.contains('is-active') &&
-  //   flagsListing.classList.contains('is-active')
-  // ) {
-  //   buttonClicked.classList.remove('is-active');
-  //   flagsListing.classList.remove('is-active');
-  // } else {
-  //   buttonClicked.classList.add('is-active');
-  //   flagsListing.classList.add('is-active');
-  // }
 };
 
-export const handlePopupClose = elements => {
-  document.addEventListener('click', e => {
-    e.stopPropagation();
-    const elementTarget = e.target;
+export const handlePopupClose = (event, elements) => {
+  event.stopPropagation();
+  const elementTarget = events.target;
 
-    isElementValid(elementTarget, elements) ? null : hide(elements);
-    document.addEventListener('scroll', e => hide(elements));
-  });
+  isElementValid(elementTarget, elements) ? null : hide(elements);
+  document.addEventListener('scroll', e => hide(elements));
 };
 
-export const destroyEvent = nodesToRemoveEvents => () => {
-  if (nodesToRemoveEvents) {
-    nodesToRemoveEvents.map(element => {
-      const nodeElement = element.nodeElement;
-      const eventType = element.eventType;
-      const eventFunction = element.eventFunction;
+export const destroyEventListener = nodesTodataRemoveEvents => () => {
+  if (nodesTodataRemoveEvents) {
+    nodesTodataRemoveEvents.map(element => {
+      const { nodeElement, eventsRemove } = element;
 
-      nodeElement.removeEventListener(eventType, eventFunction);
+      eventsRemove.map(eventRemove => {
+        nodeElement.removeEventListener(eventRemove.type, eventRemove.eventFunction);
+      });
     });
   }
 };
 
-export const destroyPopupHtml = (popupElement, destroyAllEvents) => {
+export const destroyPopupHtml = (popupElement, destroyAllEventsListener) => {
   popupElement.remove();
-  destroyAllEvents();
+  destroyAllEventsListener();
 };

@@ -1,7 +1,13 @@
 import { flags, translate, createElement, flagIsActive, flagGetImageUrl } from '../../core';
 
+import dataRemoveEvents from './dataRemoveEvents';
 import html from './createHtml';
-import { handleFlagsOpen, handlePopupClose, destroyPopupHtml, destroyEvent } from './events';
+import {
+  handleFlagsOpen,
+  handlePopupClose,
+  destroyPopupHtml,
+  destroyEventListener,
+} from './events';
 
 const popup = () => {
   const {
@@ -13,18 +19,9 @@ const popup = () => {
     DOM_POPUP_BY_TO_TRANSLATION,
   } = html();
 
-  const destroyAllEvents = destroyEvent([
-    {
-      nodeElement: document,
-      eventType: 'click',
-      eventFunction: handlePopupClose,
-    },
-    {
-      nodeElement: DOM_POPUP_OPEN_FLAGS_ARROW,
-      eventType: 'click',
-      eventFunction: handleFlagsOpen,
-    },
-  ]);
+  const destroyAllEventsListener = destroyEventListener(
+    dataRemoveEvents([DOM_POPUP, DOM_POPUP_OPEN_FLAGS_ARROW])
+  );
 
   const resetFlagsListing = () => {
     const liItems = Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('li'));
@@ -70,15 +67,6 @@ const popup = () => {
 
     renderFlagsListing();
     DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
-
-    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () => {
-      console.log(DOM_POPUP_OPEN_FLAGS_ARROW);
-
-      handleFlagsOpen({
-        buttonClicked: DOM_POPUP_OPEN_FLAGS_ARROW,
-        flagsListing: DOM_POPUP_FLAGS_LISTING,
-      });
-    });
 
     document.body.appendChild(DOM_POPUP);
   };
@@ -131,16 +119,22 @@ const popup = () => {
         _renderToByTranslation(sourceLanguage);
       });
 
-      handlePopupClose(
-        [
+      DOM_POPUP.addEventListener('click', e => {
+        handlePopupClose(e, [
           DOM_POPUP,
           DOM_POPUP_BY_TO_TRANSLATION,
           DOM_POPUP_OPEN_FLAGS_ARROW,
           DOM_POPUP_FLAGS_LISTING,
           ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
-        ],
-        handlePopupClose
-      );
+        ]);
+      });
+    });
+
+    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () => {
+      handleFlagsOpen({
+        buttonClicked: DOM_POPUP_OPEN_FLAGS_ARROW,
+        flagsListing: DOM_POPUP_FLAGS_LISTING,
+      });
     });
 
     const rangeT = objectSelection.getRangeAt(0);
@@ -156,7 +150,7 @@ const popup = () => {
   return {
     DOMPopupRender,
     DOMPopupShow,
-    DOMPopupDestroy: () => destroyPopupHtml(DOM_POPUP, destroyAllEvents),
+    DOMPopupDestroy: () => destroyPopupHtml(DOM_POPUP, destroyAllEventsListener),
   };
 };
 
