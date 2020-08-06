@@ -7,6 +7,17 @@ export const hide = elementsToHide => {
 export const handleFlagsOpen = ({ buttonClicked, flagsListing }) => {
   buttonClicked.classList.toggle('is-active');
   flagsListing.classList.toggle('is-active');
+
+  // if (
+  //   buttonClicked.classList.contains('is-active') &&
+  //   flagsListing.classList.contains('is-active')
+  // ) {
+  //   buttonClicked.classList.remove('is-active');
+  //   flagsListing.classList.remove('is-active');
+  // } else {
+  //   buttonClicked.classList.add('is-active');
+  //   flagsListing.classList.add('is-active');
+  // }
 };
 
 export const handlePopupClose = elements => {
@@ -20,8 +31,8 @@ export const handlePopupClose = elements => {
 };
 
 export const destroyEvent = nodesToRemoveEvents => () => {
-  if (elementsToRemoveEvent) {
-    elementsToRemoveEvent.map(element => {
+  if (nodesToRemoveEvents) {
+    nodesToRemoveEvents.map(element => {
       const nodeElement = element.nodeElement;
       const eventType = element.eventType;
       const eventFunction = element.eventFunction;
@@ -33,5 +44,5 @@ export const destroyEvent = nodesToRemoveEvents => () => {
 
 export const destroyPopupHtml = (popupElement, destroyAllEvents) => {
   popupElement.remove();
-  destroyEvents();
+  destroyAllEvents();
 };
