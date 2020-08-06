@@ -31,7 +31,7 @@ const start = () => {
 };
 
 const destroy = () => {
-  popup.DOMPopupRemove();
+  popup.DOMPopupDestroy();
   document.removeEventListener('mouseup', handleMouseUp);
 };
 
