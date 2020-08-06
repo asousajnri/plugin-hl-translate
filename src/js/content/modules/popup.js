@@ -13,14 +13,6 @@ const popup = () => {
     DOM_POPUP_BY_TO_TRANSLATION,
   } = html();
 
-  const ELEMENTS_CLICKED_DO_NOT_CLOSE_POPUP = [
-    DOM_POPUP,
-    DOM_POPUP_BY_TO_TRANSLATION,
-    DOM_POPUP_OPEN_FLAGS_ARROW,
-    DOM_POPUP_FLAGS_LISTING,
-    ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
-  ];
-
   const destroyAllEvents = destroyEvent([
     {
       nodeElement: document,
@@ -79,12 +71,14 @@ const popup = () => {
     renderFlagsListing();
     DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
 
-    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () =>
+    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () => {
+      console.log(DOM_POPUP_OPEN_FLAGS_ARROW);
+
       handleFlagsOpen({
         buttonClicked: DOM_POPUP_OPEN_FLAGS_ARROW,
         flagsListing: DOM_POPUP_FLAGS_LISTING,
-      })
-    );
+      });
+    });
 
     document.body.appendChild(DOM_POPUP);
   };
@@ -137,7 +131,16 @@ const popup = () => {
         _renderToByTranslation(sourceLanguage);
       });
 
-      handlePopupClose(ELEMENTS_CLICKED_DO_NOT_CLOSE_POPUP);
+      handlePopupClose(
+        [
+          DOM_POPUP,
+          DOM_POPUP_BY_TO_TRANSLATION,
+          DOM_POPUP_OPEN_FLAGS_ARROW,
+          DOM_POPUP_FLAGS_LISTING,
+          ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
+        ],
+        handlePopupClose
+      );
     });
 
     const rangeT = objectSelection.getRangeAt(0);
