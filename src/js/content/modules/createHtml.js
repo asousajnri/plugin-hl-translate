@@ -27,4 +27,4 @@ const createHtml = () => {
   };
 };
 
-export default createHtml;
+export default createHtml();

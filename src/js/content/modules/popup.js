@@ -1,28 +1,24 @@
-import { flags, translate, createElement, flagIsActive, flagGetImageUrl } from '../../core';
-
-import dataRemoveEvents from './dataRemoveEvents';
-import html from './createHtml';
 import {
-  handleFlagsOpen,
-  handlePopupClose,
-  destroyPopupHtml,
-  destroyEventListener,
-} from './events';
+  flags,
+  translate,
+  createElement,
+  flagIsActive,
+  flagGetImageUrl,
+  isElementValid,
+} from '../../core';
+
+import DOM_ELEMENTS_FROM_POPUP from './createHtml';
+
+const {
+  DOM_POPUP,
+  DOM_POPUP_TEXT_SET_TRANSLATION,
+  DOM_POPUP_DETAIL,
+  DOM_POPUP_OPEN_FLAGS_ARROW,
+  DOM_POPUP_FLAGS_LISTING,
+  DOM_POPUP_BY_TO_TRANSLATION,
+} = DOM_ELEMENTS_FROM_POPUP;
 
 const popup = () => {
-  const {
-    DOM_POPUP,
-    DOM_POPUP_TEXT_SET_TRANSLATION,
-    DOM_POPUP_DETAIL,
-    DOM_POPUP_OPEN_FLAGS_ARROW,
-    DOM_POPUP_FLAGS_LISTING,
-    DOM_POPUP_BY_TO_TRANSLATION,
-  } = html();
-
-  const destroyAllEventsListener = destroyEventListener(
-    dataRemoveEvents([DOM_POPUP, DOM_POPUP_OPEN_FLAGS_ARROW])
-  );
-
   const resetFlagsListing = () => {
     const liItems = Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('li'));
     if (liItems.length > 0) {
@@ -67,11 +63,10 @@ const popup = () => {
 
     renderFlagsListing();
     DOM_POPUP.appendChild(DOM_POPUP_FLAGS_LISTING);
-
     document.body.appendChild(DOM_POPUP);
   };
 
-  const _renderToByTranslation = sourceLanguage => {
+  const renderToByTranslation = sourceLanguage => {
     chrome.storage.sync.get(['plugin_hl-t'], async response => {
       const { preffixCountry } = response['plugin_hl-t'];
 
@@ -86,10 +81,57 @@ const popup = () => {
     });
   };
 
+  const removeEvents = () => {
+    DOM_POPUP_OPEN_FLAGS_ARROW.removeEventListener('click', handleFlagsOpen);
+    document.removeEventListener('click', handlePopupClose);
+    document.removeEventListener('scroll', hide);
+  };
+
+  const hide = elementsToHide => {
+    elementsToHide.map(element => element.classList.remove('is-active'));
+    removeEvents();
+  };
+
+  const handleFlagsOpen = () => {
+    DOM_POPUP_OPEN_FLAGS_ARROW.classList.toggle('is-active');
+    DOM_POPUP_FLAGS_LISTING.classList.toggle('is-active');
+  };
+
+  const handlePopupClose = e => {
+    e.stopPropagation();
+    const elementTarget = e.target;
+
+    if (
+      isElementValid(elementTarget, [
+        DOM_POPUP,
+        DOM_POPUP_TEXT_SET_TRANSLATION,
+        DOM_POPUP_DETAIL,
+        DOM_POPUP_OPEN_FLAGS_ARROW,
+        DOM_POPUP_FLAGS_LISTING,
+        DOM_POPUP_BY_TO_TRANSLATION,
+        ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
+      ])
+    ) {
+      return;
+    } else {
+      hide([DOM_POPUP, DOM_POPUP_OPEN_FLAGS_ARROW, DOM_POPUP_FLAGS_LISTING]);
+    }
+  };
+
+  document.addEventListener('scroll', e =>
+    hide([DOM_POPUP, DOM_POPUP_OPEN_FLAGS_ARROW, DOM_POPUP_FLAGS_LISTING])
+  );
+
+  const handlePopupShowEvents = () => {
+    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', handleFlagsOpen);
+    document.addEventListener('click', handlePopupClose);
+  };
+
   const DOMPopupShow = translateData => {
     const { objectSelection, sourceLanguage, translatedText } = translateData;
 
-    _renderToByTranslation(sourceLanguage);
+    handlePopupShowEvents();
+    renderToByTranslation(sourceLanguage);
 
     const DOM_POPUP_FLAGS_LISTING_IMAGES = Array.from(
       DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')
@@ -116,24 +158,7 @@ const popup = () => {
         );
         DOM_POPUP_TEXT_SET_TRANSLATION.innerHTML = translatedText;
 
-        _renderToByTranslation(sourceLanguage);
-      });
-
-      DOM_POPUP.addEventListener('click', e => {
-        handlePopupClose(e, [
-          DOM_POPUP,
-          DOM_POPUP_BY_TO_TRANSLATION,
-          DOM_POPUP_OPEN_FLAGS_ARROW,
-          DOM_POPUP_FLAGS_LISTING,
-          ...Array.from(DOM_POPUP_FLAGS_LISTING.querySelectorAll('img')),
-        ]);
-      });
-    });
-
-    DOM_POPUP_OPEN_FLAGS_ARROW.addEventListener('click', () => {
-      handleFlagsOpen({
-        buttonClicked: DOM_POPUP_OPEN_FLAGS_ARROW,
-        flagsListing: DOM_POPUP_FLAGS_LISTING,
+        renderToByTranslation(sourceLanguage);
       });
     });
 
@@ -150,7 +175,7 @@ const popup = () => {
   return {
     DOMPopupRender,
     DOMPopupShow,
-    DOMPopupDestroy: () => destroyPopupHtml(DOM_POPUP, destroyAllEventsListener),
+    DOMPopupDestroy: () => {},
   };
 };
 
